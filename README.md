@@ -38,18 +38,9 @@
 <table align="center">
   <tr>
     <td align="center">
-      <img src="https://github.com/MiltonCastro93/Fuga_de_la_Corona/blob/main/Captura%20de%20pantalla%202025-11-06%20103030.png" width="300" style="border-radius:10px" alt="Escenario de prueba"/>
+      <img src="" width="300" style="border-radius:10px" alt="Escenario de prueba"/>
       <p><b>Escenario de prueba</b></p>
     </td>
-    <td align="center">
-      <img src="https://github.com/MiltonCastro93/Fuga_de_la_Corona/blob/main/Captura%20de%20pantalla%202025-11-09%20114432.png" width="300" style="border-radius:10px" alt="Sprite Mask"/>
-      <p><b>Pruebas de Sprite Mask</b></p>
-    </td>
-    <td align="center">
-      <img src="https://github.com/MiltonCastro93/Fuga_de_la_Corona/blob/main/Captura%20de%20pantalla%202025-11-09%20114520.png" width="300" style="border-radius:10px" alt="IA enemiga"/>
-      <p><b>IA enemiga en acción</b></p>
-    </td>
-  </tr>
 </table>
 
 ---
