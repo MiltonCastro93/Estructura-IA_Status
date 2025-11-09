@@ -1,7 +1,7 @@
 <h1 align="center">🎮 Ladrón Elegante</h1>
 
 <p align="center">
-  <i>Desarrollo modular de un juego de sigilo y aventuras — prototipo principal</i>
+  <i>Desarrollo modular de un juego de sigilo y aventuras con estética anime — prototipo principal</i>
 </p>
 
 ---
@@ -12,6 +12,9 @@
   <li>Escenario genérico creado con <b>ProBuilder</b> para pruebas y prototipado rápido.</li>
   <li>Sistema de cámara dinámico implementado con <b>Cinemachine</b>.</li>
   <li>Base de mecánicas de jugador: movimiento, interacción y elementos de sigilo.</li>
+  <li>Proyecto desarrollado en <b>Unity 6 con HDRP</b> activado para lograr una estética anime avanzada.</li>
+  <li>Personajes temporales creados en <b>VRoid</b> y animaciones importadas desde <b>Mixamo</b>.  
+      Más adelante se reemplazarán por modelos hechos desde cero en <b>Blender</b> con animaciones propias.</li>
 </ul>
 
 ---
@@ -22,6 +25,7 @@
   <li>Integrar el <b>nuevo Input System de Unity</b> de manera estable para controles del jugador.</li>
   <li>Probar interacciones de objetos, puzzles y detección sonora en el escenario.</li>
   <li>Mejorar la modularidad para agregar fácilmente enemigos, ítems y niveles nuevos.</li>
+  <li>Implementar los personajes finales y animaciones desde Blender.</li>
 </ul>
 
 ---
@@ -41,15 +45,18 @@
       <img src="" width="300" style="border-radius:10px" alt="Escenario de prueba"/>
       <p><b>Escenario de prueba</b></p>
     </td>
+  </tr>
 </table>
 
 ---
 
-<h3 align="left">🛠 Tecnologías Utilizadas</h3>
+<h3 align="left">🛠 Tecnologías y Herramientas</h3>
 <ul>
-  <li><b>Motor:</b> Unity</li>
+  <li><b>Motor:</b> Unity 6 con HDRP</li>
   <li><b>Lenguaje:</b> C#</li>
   <li><b>Sistemas:</b> NavMeshAgent, IA modular, Cono de visión, Esfera de escucha, Cinemachine, ProBuilder</li>
+  <li><b>Personajes:</b> VRoid (temporal), Blender (finales)</li>
+  <li><b>Animaciones:</b> Mixamo (temporal), Blender (finales)</li>
 </ul>
 
 ---
@@ -57,7 +64,7 @@
 <h3 align="left">🔗 Repositorio</h3>
 <p align="center">
   <a href="https://github.com/MiltonCastro93/LadronElegante" target="_blank">
-    👉 Acceder al repositorio principal
+    👉 <b>Acceder al repositorio Viejo</b>
   </a>
 </p>
 
