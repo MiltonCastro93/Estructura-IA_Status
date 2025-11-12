@@ -63,7 +63,7 @@
 
 <h3 align="left">🔗 Repositorio</h3>
 <p align="center">
-  <a href="https://github.com/MiltonCastro93/LadronElegante" target="_blank">
+  <a href="https://github.com/MiltonCastro93/OldSistem-IA/tree/main" target="_blank">
     👉 <b>Acceder al repositorio Viejo</b>
   </a>
 </p>
