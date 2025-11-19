@@ -4,28 +4,42 @@ public class CharacterMove : MonoBehaviour
 {
     InputSystem_Actions inputs;
 
-    private Rigidbody rb;
+    private CharacterController _cc;
+
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float gravity = 1f;
+    private float verticalVelocity = 0f;
 
     private void Awake() {
         inputs = new InputSystem_Actions();
-        rb = GetComponent<Rigidbody>();
+        _cc = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
+        PlayerMove(new Vector3(move.x, 0, move.y), gravity);
 
     }
 
-    private void FixedUpdate() {
-        Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
-        Vector3 getInputs = new Vector3(move.x, 0, move.y);
+    void PlayerMove(Vector3 dir, float gravityMultiplier)
+    {
+        Vector3 horizontal = dir * speed;
 
-        Debug.Log($"Movimiento: {getInputs}");
+        if (_cc.isGrounded)
+        {
+            if (verticalVelocity < 0f)
+                verticalVelocity = -2f;
+        }
+        else
+        {
+            verticalVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
+        }
 
-        rb.MovePosition(transform.position + getInputs * speed * Time.fixedDeltaTime);
+        Vector3 final = new Vector3(horizontal.x, verticalVelocity, horizontal.z);
+
+        _cc.Move(final * Time.deltaTime);
     }
 
 
