@@ -2287,7 +2287,7 @@ Transform:
   m_GameObject: {fileID: 1038306453}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.96, z: 0}
+  m_LocalPosition: {x: 0, y: 1.077, z: 0.396}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2716,8 +2716,8 @@ GameObject:
   - component: {fileID: 1094435695}
   - component: {fileID: 1094435694}
   - component: {fileID: 1094435693}
-  - component: {fileID: 1094435696}
   - component: {fileID: 1094435697}
+  - component: {fileID: 1094435698}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2820,21 +2820,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094435690}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1094435696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094435690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7237f1703bbea274488929cc5d97fc80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterMove
-  camTransform: {fileID: 2096863479}
-  speed: 5
-  gravity: 1
 --- !u!143 &1094435697
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2860,6 +2845,21 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1094435698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094435690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0945582b85c424dbc78993eb071657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterTPS
+  camTransform: {fileID: 2096863479}
+  speed: 5
+  gravity: 1
 --- !u!43 &1105862155
 Mesh:
   m_ObjectHideFlags: 0
