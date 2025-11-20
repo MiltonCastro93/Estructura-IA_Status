@@ -2832,6 +2832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7237f1703bbea274488929cc5d97fc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMove
+  camTransform: {fileID: 2096863479}
   speed: 5
   gravity: 1
 --- !u!143 &1094435697

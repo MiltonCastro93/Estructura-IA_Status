@@ -5,6 +5,8 @@ public class CharacterMove : MonoBehaviour
     protected InputSystem_Actions inputs;
     private CharacterController _cc;
 
+    [SerializeField] protected Transform camTransform;
+
     [SerializeField] private float speed = 5f;
     [SerializeField] private float gravity = 1f;
     private float verticalVelocity = 0f;
@@ -18,13 +20,14 @@ public class CharacterMove : MonoBehaviour
     protected virtual void Update() 
     {
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
+
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
 
     }
 
     void PlayerMove(Vector3 dir, float gravityMultiplier)
     {
-        Vector3 horizontal = dir * speed;
+        Vector3 horizontal = OrientacionPlayer(dir) * speed;
 
         if (_cc.isGrounded)
         {
@@ -41,6 +44,19 @@ public class CharacterMove : MonoBehaviour
         _cc.Move(final * Time.deltaTime);
     }
 
+    Vector3 OrientacionPlayer(Vector3 dir)
+    {
+        Vector3 camForward = camTransform.forward;
+        Vector3 camRight = camTransform.right;
+
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        return camForward * dir.z + camRight * dir.x;
+    }
 
     private void OnEnable() {
         inputs.Player.Enable();
