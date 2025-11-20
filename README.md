@@ -1,72 +1,100 @@
-<h1 align="center">🎮 Ladrón Elegante</h1>
+<h1 align="center">🎮 Ladrón Elegante — Mecánica Núcleo en Desarrollo</h1>
 
 <p align="center">
-  <i>Desarrollo modular de un juego de sigilo y aventuras con estética anime — prototipo principal</i>
+  <i>Prototipo centrado en infiltración, sigilo y robo — Desarrollo activo del personaje y cámara híbrida</i>
 </p>
 
 ---
 
-<h3 align="left">🛠 Estado Actual</h3>
-<ul>
-  <li>IA modular de enemigos con <b>conos de visión</b> y <b>esferas de escucha</b> para detección del jugador.</li>
-  <li>Escenario genérico creado con <b>ProBuilder</b> para pruebas y prototipado rápido.</li>
-  <li>Sistema de cámara dinámico implementado con <b>Cinemachine</b>.</li>
-  <li>Base de mecánicas de jugador: movimiento, interacción y elementos de sigilo.</li>
-  <li>Proyecto desarrollado en <b>Unity 6 con HDRP</b> activado para lograr una estética anime avanzada.</li>
-  <li>Personajes temporales creados en <b>VRoid</b> y animaciones importadas desde <b>Mixamo</b>.  
-      Más adelante se reemplazarán por modelos hechos desde cero en <b>Blender</b> con animaciones propias.</li>
-</ul>
+## 🛠 Estado Actual del Desarrollo
+
+El prototipo está enfocado exclusivamente en construir la **mecánica principal del juego:**  
+**Entrar a casas ajenas para robar sin ser detectado.**
+
+Actualmente estoy trabajando en:
+
+### 🔹 Sistema de Personaje (en progreso)
+- Implementación del **Character Controller** como base del movimiento.
+- Desarrollo de un **sistema de control híbrido**:
+  - **Tercera persona (TPS) cuando estás en el exterior**, usando *Cinemachine*.
+  - **Primera persona (FPS) al entrar en interiores**, con movimiento programado desde cero (sin Cinemachine).
+- Transición fluida entre ambas cámaras según el entorno.
+- Movimiento, rotación y sensación de control adaptados para stealth gameplay.
 
 ---
 
-<h3 align="left">🎯 Objetivos del Proyecto</h3>
-<ul>
-  <li>Completar la IA modular con estados de patrullaje, alerta y persecución.</li>
-  <li>Integrar el <b>nuevo Input System de Unity</b> de manera estable para controles del jugador.</li>
-  <li>Probar interacciones de objetos, puzzles y detección sonora en el escenario.</li>
-  <li>Mejorar la modularidad para agregar fácilmente enemigos, ítems y niveles nuevos.</li>
-  <li>Implementar los personajes finales y animaciones desde Blender.</li>
-</ul>
+## 🎯 Mecánica Núcleo (Core)
+
+El foco actual del proyecto es:
+
+### 🏠 **Infiltración en Casas**
+- Detectar automáticamente cuando el jugador entra a una casa.
+- Cambiar a **modo primera persona** para intensificar la inmersión.
+- Movimiento preciso y ajustado a espacios reducidos.
+- Preparación para futuras mecánicas:
+  - Hurtar objetos.
+  - Gestión de ruido.
+  - Interacciones sigilosas.
+
+### 🌳 **Exploración Exterior**
+- Cámara en **tercera persona** con Cinemachine para una vista amplia.
+- Control más dinámico y expresivo durante el recorrido entre casas.
 
 ---
 
-<h3 align="left">⚠️ Problemas Conocidos</h3>
-<ul>
-  <li>El nuevo <b>Input System</b> de Unity puede entrar en conflicto con scripts antiguos que usan `Input.GetKey` o `Input.GetAxis`. Se requiere migración o compatibilidad dual.</li>
-</ul>
+## 🚧 Sistemas del Prototipo (Activos y Planificados)
+
+### ✔ Implementado
+- Character Controller como base.
+- TPS con Cinemachine en exteriores.
+- FPS programado manualmente en interiores.
+- Detección de entrada/salida de casas.
+
+### 🕒 En desarrollo
+- Sistema de objetos robables.
+- Sonidos y detección auditiva.
+- Inventario básico.
+- IA de vecinos o guardias.
 
 ---
 
-<h3 align="left">📸 Capturas del Prototipo</h3>
+## 📸 Capturas del Prototipo
+
+*(Coloca aquí tus imágenes cuando las subas al repositorio)*
 
 <table align="center">
   <tr>
     <td align="center">
-      <img src="" width="300" style="border-radius:10px" alt="Escenario de prueba"/>
-      <p><b>Escenario de prueba</b></p>
+      <img src="" width="300" style="border-radius:10px" alt="Vista del prototipo"/>
+      <p><b>Vista general del prototipo</b></p>
     </td>
   </tr>
 </table>
 
 ---
 
-<h3 align="left">🛠 Tecnologías y Herramientas</h3>
-<ul>
-  <li><b>Motor:</b> Unity 6 con HDRP</li>
-  <li><b>Lenguaje:</b> C#</li>
-  <li><b>Sistemas:</b> NavMeshAgent, IA modular, Cono de visión, Esfera de escucha, Cinemachine, ProBuilder</li>
-  <li><b>Personajes:</b> VRoid (temporal), Blender (finales)</li>
-  <li><b>Animaciones:</b> Mixamo (temporal), Blender (finales)</li>
-</ul>
+## 🛠 Tecnologías y Herramientas
+
+- **Unity 6 (HDRP)**
+- **C# — Programación estructurada, arquitectura modular**
+- **Character Controller**
+- **Cinemachine** (cámara TPS)
+- **FPS custom programado desde cero**
+- **Detección de interiores/exteriores**
+- **Prototipado rápido con ProBuilder**
+- Personajes temporalmente creados en **VRoid**
+- Diseño final planeado en **Blender**
 
 ---
 
-<h3 align="left">🔗 Repositorio</h3>
+## 🔗 Repositorio Viejo (IA Modular)
 <p align="center">
   <a href="https://github.com/MiltonCastro93/OldSistem-IA/tree/main" target="_blank">
-    👉 <b>Acceder al repositorio Viejo</b>
+    👉 <b>Acceder al repositorio viejo basado en IA</b>
   </a>
 </p>
+
+---
 
 <p align="center">
   <img src="https://visitor-badge.laobi.icu/badge?page_id=MiltonCastro93.LadronElegante" alt="Visitas"/>
