@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class CharacterMove : MonoBehaviour
 {
-    InputSystem_Actions inputs;
-
+    protected InputSystem_Actions inputs;
     private CharacterController _cc;
 
     [SerializeField] private float speed = 5f;
@@ -16,7 +15,7 @@ public class CharacterMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update() 
     {
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
