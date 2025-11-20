@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class CharacterPlayer : MonoBehaviour
 {
@@ -7,19 +8,34 @@ public abstract class CharacterPlayer : MonoBehaviour
 
     [SerializeField] protected Transform camTransform;
 
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
     [SerializeField] private float gravity = 1f;
-    private float verticalVelocity = 0f;
+    private float speed = 0f,verticalVelocity = 0f;
+
+    private bool isRunning = false, isCrouching = false;
 
     private void Awake() {
         inputs = new InputSystem_Actions();
         _cc = GetComponent<CharacterController>();
+        isRunning = false;
+        isCrouching = false;
+
     }
 
     // Update is called once per frame
     protected virtual void Update() 
     {
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
+        isRunning = inputs.Player.Sprint.IsPressed();
+
+        if(isRunning && !isCrouching)
+        {
+            speed = speedRunning;
+        }
+        else
+        {
+            speed = speedWalking;
+        }
 
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
     }
@@ -60,12 +76,21 @@ public abstract class CharacterPlayer : MonoBehaviour
     abstract protected void Turn(Vector2 Action);//segun el modo de juego, se implementa diferente su rotacion
 
 
-    private void OnEnable() {
-        inputs.Player.Enable();
+    private void OnEnable()
+    {
+        inputs.Enable();
+        inputs.Player.Crouch.performed += OnCrouchPerformed;
     }
 
-    private void OnDisable() {
-        inputs.Player.Disable();
+    private void OnDisable()
+    {
+        inputs.Player.Crouch.performed -= OnCrouchPerformed;
+        inputs.Disable();
+    }
+
+    private void OnCrouchPerformed(InputAction.CallbackContext ctx)
+    {
+        isCrouching = !isCrouching;
     }
 
 }

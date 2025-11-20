@@ -9,7 +9,6 @@ public class CharacterTPS : CharacterPlayer
         Turn(inputs.Player.Move.ReadValue<Vector2>());
     }
 
-
     protected override void Turn(Vector2 Action)
     {
         Vector3 camForward = camTransform.forward;
