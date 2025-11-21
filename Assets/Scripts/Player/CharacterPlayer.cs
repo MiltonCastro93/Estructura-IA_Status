@@ -10,9 +10,10 @@ public abstract class CharacterPlayer : MonoBehaviour
 
     [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
     [SerializeField] private float gravity = 1f;
-    private float speed = 0f,verticalVelocity = 0f;
+    private float speed = 0f, verticalVelocity = 0f;
 
     private bool isRunning = false, isCrouching = false;
+    public bool isTilt = false;
 
     private void Awake() {
         inputs = new InputSystem_Actions();
@@ -42,7 +43,7 @@ public abstract class CharacterPlayer : MonoBehaviour
 
     void PlayerMove(Vector3 dir, float gravityMultiplier)//Movimiento del player y Aplicar gravedad
     {
-        Vector3 horizontal = OrientacionPlayer(dir) * speed;
+        Vector3 horizontal = OrientacionPlayer(dir, isTilt) * speed;
 
         if (_cc.isGrounded)
         {
@@ -59,10 +60,21 @@ public abstract class CharacterPlayer : MonoBehaviour
         _cc.Move(final * Time.deltaTime);
     }
 
-    Vector3 OrientacionPlayer(Vector3 dir)//Camina en direccion de la camara
+    Vector3 OrientacionPlayer(Vector3 dir, bool IsTilt)//Camina en direccion de la camara
     {
-        Vector3 camForward = camTransform.forward;
-        Vector3 camRight = camTransform.right;
+        Vector3 camForward = Vector3.zero;
+        Vector3 camRight = Vector3.zero;
+
+        if (IsTilt)
+        {
+            camForward = _cc.transform.forward;
+            camRight = _cc.transform.right;
+        }
+        else
+        {
+            camForward = camTransform.forward;
+            camRight = camTransform.right;
+        }
 
         camForward.y = 0;
         camRight.y = 0;

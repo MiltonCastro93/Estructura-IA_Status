@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CharacterFPS : CharacterPlayer
 {
@@ -7,11 +8,48 @@ public class CharacterFPS : CharacterPlayer
 
     private float pitch;
 
+    [SerializeField] HolderController holder;
+
+    private void Start()
+    {
+        holder?.GetValues(inputs, sensX, sensY);
+
+    }
+
     protected override void Update()
     {
         base.Update();
-        Turn(inputs.Player.Look.ReadValue<Vector2>());
+
+        if (Tilt(inputs.Player.Tilt.ReadValue<Vector2>())) {            
+            Debug.Log("Tilting");
+
+            if (inputs.Player.Move.ReadValue<Vector2>() != Vector2.zero) {
+                isTilt = true;
+
+                Debug.Log("Tilting and Moving");
+            }
+        }
+        else
+        {
+            Turn(inputs.Player.Look.ReadValue<Vector2>());
+            isTilt = false;
+        }
+
+
     }
+
+    protected bool Tilt(Vector2 value)
+    {
+        //activo/desactivo el componente que sujeta la camara
+        if (value == Vector2.zero)
+        {
+            holder?.ResetHolder();
+            return holder.enabled = false;
+        }
+
+        return holder.enabled = true;
+    }
+
 
     protected override void Turn(Vector2 Action)
     {
