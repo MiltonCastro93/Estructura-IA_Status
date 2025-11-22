@@ -20,23 +20,24 @@ public class CharacterFPS : CharacterPlayer
     {
         base.Update();
 
-        if (Tilt(inputs.Player.Tilt.ReadValue<Vector2>())) {            
+        if (Tilt(inputs.Player.Tilt.ReadValue<Vector2>()))
+        {
             Debug.Log("Tilting");
+            isTilt = true;
 
-            if (inputs.Player.Move.ReadValue<Vector2>() != Vector2.zero) {
-                isTilt = true;
-
+            if (inputs.Player.Move.ReadValue<Vector2>() != Vector2.zero)
+            {
                 Debug.Log("Tilting and Moving");
+
             }
         }
         else
         {
-            //-> Otra sensacion de movimiento
-            Turn(inputs.Player.Look.ReadValue<Vector2>());
             isTilt = false;
+            
         }
-        //-> Sensacion de movimiento estilo Outlast? (se me rompe mirar atras)
-        //Turn(inputs.Player.Look.ReadValue<Vector2>());
+
+        Turn(inputs.Player.Look.ReadValue<Vector2>());
     }
 
     protected bool Tilt(Vector2 value)
@@ -46,20 +47,6 @@ public class CharacterFPS : CharacterPlayer
         {
             holder?.ResetHolder();
             return holder.enabled = false;
-        }
-
-        if (isRunning)
-        {
-            if (value.x > 0)
-            {
-                holder?.TiltDirecctionRun(value);
-                Debug.Log("Correr y Tilt Right");
-            }
-            else if (value.x < 0)
-            {
-                holder?.TiltDirecctionRun(value);
-                Debug.Log("Correr y Tilt Left");
-            }
         }
 
         return holder.enabled = true;
@@ -76,6 +63,7 @@ public class CharacterFPS : CharacterPlayer
         pitch = Mathf.Clamp(pitch, -85f, 85f);
 
         HolderTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+
     }
 
     public bool isRunningState()

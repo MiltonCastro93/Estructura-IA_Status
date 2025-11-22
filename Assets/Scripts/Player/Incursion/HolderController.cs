@@ -29,7 +29,16 @@ public class HolderController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(inputs != null) TurnHolder(inputs.Player.Look.ReadValue<Vector2>(), sensX, sensY);
+        if(inputs != null && !_characterFPS.isRunningState())
+        {
+            TurnHolder(inputs.Player.Look.ReadValue<Vector2>(), sensX, sensY);
+
+        }
+        else
+        {
+            TiltDirecctionRun(inputs.Player.Tilt.ReadValue<Vector2>());
+
+        }
 
     }
 
