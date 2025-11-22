@@ -2737,7 +2737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0713471f635c6e041b4f86b726681090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterFPS
-  camTransform: {fileID: 1038306454}
+  HolderTransform: {fileID: 1038306454}
   speedWalking: 5
   speedRunning: 10
   gravity: 1

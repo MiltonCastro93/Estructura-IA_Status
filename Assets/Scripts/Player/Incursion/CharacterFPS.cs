@@ -31,11 +31,12 @@ public class CharacterFPS : CharacterPlayer
         }
         else
         {
+            //-> Otra sensacion de movimiento
             Turn(inputs.Player.Look.ReadValue<Vector2>());
             isTilt = false;
         }
-
-
+        //-> Sensacion de movimiento estilo Outlast? (se me rompe mirar atras)
+        //Turn(inputs.Player.Look.ReadValue<Vector2>());
     }
 
     protected bool Tilt(Vector2 value)
@@ -49,19 +50,17 @@ public class CharacterFPS : CharacterPlayer
 
         if (isRunning)
         {
-            Debug.Log("Corriendo haciendo tilt");
             if (value.x > 0)
             {
                 holder?.TiltDirecctionRun(value);
-                Debug.Log("Tilt Right");
+                Debug.Log("Correr y Tilt Right");
             }
             else if (value.x < 0)
             {
                 holder?.TiltDirecctionRun(value);
-                Debug.Log("Tilt Left");
+                Debug.Log("Correr y Tilt Left");
             }
         }
-
 
         return holder.enabled = true;
     }
@@ -76,7 +75,7 @@ public class CharacterFPS : CharacterPlayer
         pitch -= Action.y * sensY * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, -85f, 85f);
 
-        camTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        HolderTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
     public bool isRunningState()

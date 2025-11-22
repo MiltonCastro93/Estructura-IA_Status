@@ -11,8 +11,8 @@ public class CharacterTPS : CharacterPlayer
 
     protected override void Turn(Vector2 Action)
     {
-        Vector3 camForward = camTransform.forward;
-        Vector3 camRight = camTransform.right;
+        Vector3 camForward = HolderTransform.forward;
+        Vector3 camRight = HolderTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;

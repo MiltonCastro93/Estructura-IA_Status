@@ -23,7 +23,7 @@ public class HolderController : MonoBehaviour
     {
         pitchY = 0f;
         pitchX = 0f;
-        transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        transform.localRotation = Quaternion.identity;
     }
 
     // Update is called once per frame

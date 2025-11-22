@@ -6,7 +6,7 @@ public abstract class CharacterPlayer : MonoBehaviour
     protected InputSystem_Actions inputs;
     private CharacterController _cc;
 
-    [SerializeField] protected Transform camTransform;
+    [SerializeField] protected Transform HolderTransform; //<< -- Asignar el holder aqui
 
     [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
     [SerializeField] private float gravity = 1f;
@@ -72,8 +72,8 @@ public abstract class CharacterPlayer : MonoBehaviour
         }
         else
         {
-            camForward = camTransform.forward;
-            camRight = camTransform.right;
+            camForward = HolderTransform.forward;
+            camRight = HolderTransform.right;
         }
 
         camForward.y = 0;
