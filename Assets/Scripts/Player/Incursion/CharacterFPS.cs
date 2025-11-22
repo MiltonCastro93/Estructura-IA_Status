@@ -47,6 +47,22 @@ public class CharacterFPS : CharacterPlayer
             return holder.enabled = false;
         }
 
+        if (isRunning)
+        {
+            Debug.Log("Corriendo haciendo tilt");
+            if (value.x > 0)
+            {
+                holder?.TiltDirecctionRun(value);
+                Debug.Log("Tilt Right");
+            }
+            else if (value.x < 0)
+            {
+                holder?.TiltDirecctionRun(value);
+                Debug.Log("Tilt Left");
+            }
+        }
+
+
         return holder.enabled = true;
     }
 
@@ -61,6 +77,11 @@ public class CharacterFPS : CharacterPlayer
         pitch = Mathf.Clamp(pitch, -85f, 85f);
 
         camTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+    }
+
+    public bool isRunningState()
+    {
+        return isRunning;
     }
 
 }

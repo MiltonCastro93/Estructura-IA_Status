@@ -6,6 +6,11 @@ public class HolderController : MonoBehaviour
     InputSystem_Actions inputs;
 
     private float pitchY = 0f, pitchX = 0f, sensX = 0f, sensY = 0f;
+    private CharacterFPS _characterFPS;
+
+    private void Start() {
+        _characterFPS = GetComponentInParent<CharacterFPS>();
+    }
 
     public void GetValues(InputSystem_Actions Inputs, float SensX, float SensY)
     {
@@ -30,17 +35,24 @@ public class HolderController : MonoBehaviour
 
     void TurnHolder(Vector2 Action, float sensX, float sensY)
     {
-        pitchY -= Action.y * sensY * Time.deltaTime;
-        pitchY = Mathf.Clamp(pitchY, -45f, 45f);
+        if (_characterFPS?.isRunningState() == false)
+        {
+            pitchY -= Action.y * sensY * Time.deltaTime;
+            pitchY = Mathf.Clamp(pitchY, -45f, 45f);
 
-        pitchX += Action.x * sensX * Time.deltaTime;
-        pitchX = Mathf.Clamp(pitchX, -45f, 45f);
+            pitchX += Action.x * sensX * Time.deltaTime;
+            pitchX = Mathf.Clamp(pitchX, -45f, 45f);
 
 
-        // Rotación de la Camara
-        transform.localRotation = Quaternion.Euler(pitchY, pitchX, 0f);
+            // Rotación de la Camara
+            transform.localRotation = Quaternion.Euler(pitchY, pitchX, 0f);
+        }
+
     }
 
-
+    public void TiltDirecctionRun(Vector2 direccion)
+    {
+        transform.localRotation = Quaternion.Euler(0f, 140 * direccion.x, 0f);
+    }
 
 }

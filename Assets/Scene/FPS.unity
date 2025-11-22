@@ -2228,7 +2228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7edb3ce91342314db2e0028a0d43363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HolderController
-  isRotHolder: 0
 --- !u!1 &1068826238
 GameObject:
   m_ObjectHideFlags: 0

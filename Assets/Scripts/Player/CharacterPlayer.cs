@@ -12,8 +12,7 @@ public abstract class CharacterPlayer : MonoBehaviour
     [SerializeField] private float gravity = 1f;
     private float speed = 0f, verticalVelocity = 0f;
 
-    private bool isRunning = false, isCrouching = false;
-    public bool isTilt = false;
+    protected bool isRunning = false, isCrouching = false, isTilt = false;
 
     private void Awake() {
         inputs = new InputSystem_Actions();
@@ -21,6 +20,7 @@ public abstract class CharacterPlayer : MonoBehaviour
         isRunning = false;
         isCrouching = false;
 
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -87,6 +87,11 @@ public abstract class CharacterPlayer : MonoBehaviour
 
     abstract protected void Turn(Vector2 Action);//segun el modo de juego, se implementa diferente su rotacion
 
+    private void OnCrouchPerformed(InputAction.CallbackContext ctx)
+    {
+        isCrouching = !isCrouching;
+        Debug.Log("Crouch toggled: " + isCrouching);
+    }
 
     private void OnEnable()
     {
@@ -98,11 +103,6 @@ public abstract class CharacterPlayer : MonoBehaviour
     {
         inputs.Player.Crouch.performed -= OnCrouchPerformed;
         inputs.Disable();
-    }
-
-    private void OnCrouchPerformed(InputAction.CallbackContext ctx)
-    {
-        isCrouching = !isCrouching;
     }
 
 }
