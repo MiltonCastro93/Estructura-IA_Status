@@ -14,14 +14,10 @@ public class CharacterEspia : CharacterPlayer
 
     }
 
-    protected override void Turn(Vector2 Action)
-    {
-        Debug.Log("Se esta pensando en borrar");
-    }
 
-    public InputSystem_Actions GetInputs()
-    {
-        return inputs;
-    }
+
+
+
+    public InputSystem_Actions GetInputs() => inputs;
 
 }

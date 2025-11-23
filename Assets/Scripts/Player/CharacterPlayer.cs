@@ -68,8 +68,6 @@ public abstract class CharacterPlayer : MonoBehaviour
         return camForward * dir.z + camRight * dir.x;
     }
 
-    abstract protected void Turn(Vector2 Action);//segun el modo de juego, se implementa diferente su rotacion
-
     private void OnCrouchPerformed(InputAction.CallbackContext ctx)
     {
         isCrouching = !isCrouching;
@@ -92,5 +90,6 @@ public abstract class CharacterPlayer : MonoBehaviour
     public bool IsRunning() => isRunning;
     public bool IsCrouching() => isCrouching;
     public bool IsTilt() => isTilt;
+    public bool IsWalkingForward() => inputs.Player.Move.ReadValue<Vector2>().y != 0;
 
 }

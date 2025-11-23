@@ -9,7 +9,8 @@ public class CharacterTPS : CharacterPlayer
         Turn(inputs.Player.Move.ReadValue<Vector2>());
     }
 
-    protected override void Turn(Vector2 Action)
+
+    void Turn(Vector2 Action)
     {
         Vector3 camForward = HolderTransform.forward;
         Vector3 camRight = HolderTransform.right;
@@ -21,10 +22,10 @@ public class CharacterTPS : CharacterPlayer
         camRight.Normalize();
 
         Vector3 getTurn = camForward * Action.y + camRight * Action.x;
-        if (getTurn != Vector3.zero) {
+        if (getTurn != Vector3.zero)
+        {
             transform.rotation = Quaternion.LookRotation(getTurn);
         }
-
     }
 
 }
