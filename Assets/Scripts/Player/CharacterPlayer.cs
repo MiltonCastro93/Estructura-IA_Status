@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public abstract class CharacterPlayer : MonoBehaviour
 {
     protected InputSystem_Actions inputs;
     private CharacterController _cc;
 
-    [SerializeField] protected Transform HolderTransform; //<< -- Asignar el holder aqui
+    [SerializeField] protected Transform HolderTransform;
 
     [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
     [SerializeField] private float gravity = 1f;
@@ -20,7 +21,7 @@ public abstract class CharacterPlayer : MonoBehaviour
         isRunning = false;
         isCrouching = false;
 
-        Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -29,14 +30,7 @@ public abstract class CharacterPlayer : MonoBehaviour
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         isRunning = inputs.Player.Sprint.IsPressed();
 
-        if(isRunning && !isCrouching)
-        {
-            speed = speedRunning;
-        }
-        else
-        {
-            speed = speedWalking;
-        }
+        speed = isRunning && !isCrouching ? speedRunning : speedWalking;        
 
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
     }
@@ -62,19 +56,8 @@ public abstract class CharacterPlayer : MonoBehaviour
 
     Vector3 OrientacionPlayer(Vector3 dir, bool IsTilt)//Camina en direccion de la camara
     {
-        Vector3 camForward = Vector3.zero;
-        Vector3 camRight = Vector3.zero;
-
-        if (IsTilt)
-        {
-            camForward = _cc.transform.forward;
-            camRight = _cc.transform.right;
-        }
-        else
-        {
-            camForward = HolderTransform.forward;
-            camRight = HolderTransform.right;
-        }
+        Vector3 camForward = isTilt ? _cc.transform.forward : HolderTransform.forward;
+        Vector3 camRight = isTilt ? _cc.transform.right : HolderTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -104,5 +87,10 @@ public abstract class CharacterPlayer : MonoBehaviour
         inputs.Player.Crouch.performed -= OnCrouchPerformed;
         inputs.Disable();
     }
+
+
+    public bool IsRunning() => isRunning;
+    public bool IsCrouching() => isCrouching;
+    public bool IsTilt() => isTilt;
 
 }
