@@ -15,6 +15,7 @@ public abstract class CharacterPlayer : MonoBehaviour
 
     protected bool isRunning = false, isCrouching = false, isTilt = false;
 
+
     private void Awake() {
         inputs = new InputSystem_Actions();
         _cc = GetComponent<CharacterController>();
@@ -78,6 +79,7 @@ public abstract class CharacterPlayer : MonoBehaviour
     {
         inputs.Enable();
         inputs.Player.Crouch.performed += OnCrouchPerformed;
+        
     }
 
     private void OnDisable()
@@ -91,5 +93,7 @@ public abstract class CharacterPlayer : MonoBehaviour
     public bool IsCrouching() => isCrouching;
     public bool IsTilt() => isTilt;
     public bool IsWalkingForward() => inputs.Player.Move.ReadValue<Vector2>().y != 0;
+
+
 
 }

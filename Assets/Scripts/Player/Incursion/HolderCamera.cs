@@ -1,5 +1,8 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class HolderCamera : MonoBehaviour
 {
@@ -12,12 +15,15 @@ public class HolderCamera : MonoBehaviour
     
     private Coroutine resetRotCoroutine;//Referencia a la corrutina de reseteo de rotacion
 
+    private Ifurniture RelativeMueble;
+    public Vector3 OldPosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _characterEspia = GetComponentInParent<CharacterEspia>();
         inputs = _characterEspia.GetInputs();
+        inputs.Player.Attack.performed += OnAttack;
     }
 
     // Update is called once per frame
@@ -25,7 +31,6 @@ public class HolderCamera : MonoBehaviour
     {
         Vector2 look = inputs.Player.Look.ReadValue<Vector2>();
         Vector2 tilt = inputs.Player.Tilt.ReadValue<Vector2>();
-
 
         if (_characterEspia.IsTilt())
         {
@@ -51,12 +56,15 @@ public class HolderCamera : MonoBehaviour
 
         }
 
-        if (allowFreeLook) { 
+        if (allowFreeLook)
+        {
             Turn(look); //Rotacion del personaje y la camara
 
         }
 
+
     }
+
 
 
     void Turn(Vector2 Action) //Rotacion del personaje y la camara
@@ -124,6 +132,51 @@ public class HolderCamera : MonoBehaviour
         pitchX = 0f;
         pitchY = 0f;
         pitchGlobalY = 0f;
+    }
+
+    public void SetRelativeMueble(Ifurniture ifurniture)
+    {
+        RelativeMueble = ifurniture;
+    }
+
+    private void OnDisable()
+    {
+        inputs.Player.Crouch.performed -= OnAttack;
+        inputs.Disable();
+    }
+
+    public void OnAttack(InputAction.CallbackContext ctx)
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 3f))
+        {
+            Debug.Log($"Choco contra {hit.collider.transform.gameObject.name}");
+            Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
+
+            if (RelativeMueble != null && hit.collider.CompareTag("Mueble"))
+            {
+                // ENTRAR
+                if (!_characterEspia.GetStatus())
+                {
+                    // Guardar posición REAL del personaje
+                    OldPosition = transform.parent.position;
+
+                    _characterEspia.SetStatus(true);
+
+                    // Mover al punto de ejecución del mueble
+                    transform.parent.position = RelativeMueble.EjecutedPos();
+                }
+                // SALIR
+                else
+                {
+                    // Volver a la posición anterior
+                    transform.parent.position = OldPosition;
+                    _characterEspia.SetStatus(false);
+
+                }
+            }
+        }
     }
 
 
