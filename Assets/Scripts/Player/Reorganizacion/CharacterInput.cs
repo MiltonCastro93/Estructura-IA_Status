@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public abstract class CharacterInput : MonoBehaviour
 {
     protected InputSystem_Actions inputs;
+    protected bool isSprinting = false;
+    private bool isTilt = false;
 
     protected virtual void Awake()
     {
@@ -11,7 +13,14 @@ public abstract class CharacterInput : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
+    protected virtual void Update()
+    {
+        if (isTilt)
+        {
+            Tilts();
+        }
 
+    }
 
     //Aniado nuevos eventos aqui!
     protected virtual void OnEnable()
@@ -19,12 +28,24 @@ public abstract class CharacterInput : MonoBehaviour
         inputs.Enable();
         inputs.Player.Crouch.performed += OnCrouchPerformed;
         inputs.Player.Attack.performed += OnAttack;
+
+        inputs.Player.Sprint.performed += OnRun;
+        inputs.Player.Sprint.canceled += FinishRun;
+
+        inputs.Player.Tilt.performed += ctx => isTilt = true;
+        inputs.Player.Tilt.canceled += ctx => isTilt = false;
     }
 
     protected virtual void OnDisable()
     {
         inputs.Player.Crouch.performed -= OnCrouchPerformed;
         inputs.Player.Attack.performed -= OnAttack;
+
+        inputs.Player.Sprint.performed += OnRun;
+        inputs.Player.Sprint.canceled += FinishRun;
+
+        inputs.Player.Tilt.performed -= ctx => isTilt = true;
+        inputs.Player.Tilt.canceled -= ctx => isTilt = false;
         inputs.Disable();
     }
 
@@ -37,6 +58,7 @@ public abstract class CharacterInput : MonoBehaviour
 
     protected virtual void OnAttack(InputAction.CallbackContext ctx)
     {
+        Debug.Log("Interactuar");
         //RaycastHit hit;
 
         //if (Physics.Raycast(transform.position, transform.forward, out hit, 3f))
@@ -68,6 +90,21 @@ public abstract class CharacterInput : MonoBehaviour
         //    }
         //}
 
+    }
+
+    protected virtual void OnRun(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Corriendo");
+    }
+
+    protected virtual void FinishRun(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Dejo de Correr");
+    }
+
+    protected virtual void Tilts()
+    {
+        Debug.Log("Inclinacion");
     }
 
 }

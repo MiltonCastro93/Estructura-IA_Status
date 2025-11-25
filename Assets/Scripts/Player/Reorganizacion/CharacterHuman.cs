@@ -9,11 +9,8 @@ public abstract class CharacterHuman : CharacterInput
     protected CharacterController _cc;
     protected enum State { Idle, Walking, Running, Crouch, CrouchWalking, Hidden, Tilt, TiltWalking, TiltRunning }
     [SerializeField] protected State CurrentState;
+    Vector2 TiltOrientacion = Vector2.zero;
 
-    [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
-    [SerializeField] protected float gravity = 1f;
-    protected float speed = 0f, verticalVelocity = 0f;
-    protected Vector3 OldPosition = Vector3.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Awake()
@@ -23,36 +20,54 @@ public abstract class CharacterHuman : CharacterInput
     }
 
     //Regula los estados del Personaje
-    protected virtual void Update()
+    protected override void Update()
     {
-        if(_cc.velocity.sqrMagnitude != 0f && CurrentState != State.Crouch)
-        {
-            if(_cc.velocity.sqrMagnitude >= 60f)
-            {
+        base.Update();
+        
 
-                CurrentState = State.Running;
-                return;
-            }
-
-            CurrentState = State.Walking;
-            return;
-        }
-
-        if(_cc.velocity.sqrMagnitude != 0f && CurrentState == State.Crouch)
-        {
-            CurrentState = State.CrouchWalking;
-            return;
-        }
-
-
-        CurrentState = State.Idle;
     }
+
 
     //Modifico el metodo de agacharse
     protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
     {
         base.OnCrouchPerformed(ctx);
-        CurrentState = State.Crouch;
+        if(_cc.velocity.sqrMagnitude <= 30f)
+        {
+            CurrentState = CurrentState != State.Crouch ? State.Crouch : State.Idle;
+        }
+
+
+    }
+
+    //modifico el metodo de correr
+    protected override void OnRun(InputAction.CallbackContext ctx)
+    {
+        if (CurrentState == State.Tilt)
+        {
+            CurrentState = State.TiltRunning;
+            return;
+        }
+
+        CurrentState = State.Running;
+    }
+
+    protected override void FinishRun(InputAction.CallbackContext ctx)
+    {
+        base.FinishRun(ctx);
+        CurrentState = State.Idle;
+    }
+
+
+    protected override void Tilts()
+    {
+        base.Tilts();
+        TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
+        if (CurrentState == State.TiltRunning)
+        {
+            return;
+        }
+        CurrentState = State.Tilt;
 
     }
 

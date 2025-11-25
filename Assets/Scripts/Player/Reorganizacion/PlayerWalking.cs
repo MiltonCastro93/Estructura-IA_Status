@@ -1,16 +1,23 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerHeroe : CharacterHuman
+public class PlayerWalking : CharacterHuman
 {
     [SerializeField] Transform HolderTransform;
+
+    [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
+    [SerializeField] private float gravity = 1f;
+    [SerializeField] private float speed = 5f, verticalVelocity = 0f;
+    private Vector3 OldPosition = Vector3.zero;
 
 
     protected override void Update()
     {
         base.Update();
 
-        Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
+        Vector2 move = inputs.Player.Move.ReadValue<Vector2>();        
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
+
     }
 
     //Metodo para mover al personaje, y tambien, aplico la gravedad
@@ -47,4 +54,19 @@ public class PlayerHeroe : CharacterHuman
 
         return camForward * dir.z + camRight * dir.x;
     }
+
+
+    protected override void OnRun(InputAction.CallbackContext ctx)
+    {
+        base.OnRun(ctx);
+        speed = speedRunning;
+    }
+
+    protected override void FinishRun(InputAction.CallbackContext ctx)
+    {
+        base.FinishRun(ctx);
+        speed = speedWalking;
+
+    }
+
 }
