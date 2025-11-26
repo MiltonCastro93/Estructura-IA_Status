@@ -1,3 +1,4 @@
+using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,15 +8,29 @@ public class PlayerWalking : CharacterHuman
 
     [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
     [SerializeField] private float gravity = 1f;
-    [SerializeField] private float speed = 5f, verticalVelocity = 0f;
-    private Vector3 OldPosition = Vector3.zero;
+    private float speed = 5f, verticalVelocity = 0f;
+    private ControllerCamera MyCamera;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if(HolderTransform.GetComponent<ControllerCamera>() == null)
+        {
+            Debug.LogError("Este GO No Posee el ControllerCamera");
+            return;
+        }
+
+        MyCamera = HolderTransform.GetComponentInChildren<ControllerCamera>();
+    }
 
 
     protected override void Update()
     {
         base.Update();
+        speed = IsRunning ? speedRunning : speedWalking;
+        CheckStatus();
 
-        Vector2 move = inputs.Player.Move.ReadValue<Vector2>();        
+        Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
 
     }
@@ -23,7 +38,7 @@ public class PlayerWalking : CharacterHuman
     //Metodo para mover al personaje, y tambien, aplico la gravedad
     void PlayerMove(Vector3 dir, float gravityMultiplier)
     {
-        Vector3 horizontal = OrientacionPlayer(dir, CurrentState) * speed;
+        Vector3 horizontal = OrientacionPlayer(dir) * speed;
 
         if (_cc.isGrounded)
         {
@@ -41,10 +56,10 @@ public class PlayerWalking : CharacterHuman
     }
 
     //Camina segun el estado del Personaje, hacia el Forward de la camara o del Personaje 
-    Vector3 OrientacionPlayer(Vector3 dir, State Current)
+    Vector3 OrientacionPlayer(Vector3 dir)
     {
-        Vector3 camForward = Current == State.Tilt ? _cc.transform.forward : HolderTransform.forward;
-        Vector3 camRight = Current == State.Tilt ? _cc.transform.right : HolderTransform.right;
+        Vector3 camForward = HolderTransform.forward;
+        Vector3 camRight = HolderTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -55,18 +70,37 @@ public class PlayerWalking : CharacterHuman
         return camForward * dir.z + camRight * dir.x;
     }
 
-
-    protected override void OnRun(InputAction.CallbackContext ctx)
+    //Envio la data quien la necesite: -> TiltDireccion Class
+    public Vector2 GetTiltDireccion()
     {
-        base.OnRun(ctx);
-        speed = speedRunning;
+        return TiltOrientacion;
     }
 
-    protected override void FinishRun(InputAction.CallbackContext ctx)
+    private void CheckStatus()
     {
-        base.FinishRun(ctx);
-        speed = speedWalking;
+        Vector2 look = inputs.Player.Look.ReadValue<Vector2>();
+        switch (CurrentState)
+        {
+            case State.Idle:
+            case State.Walking:
+            case State.Running:
+            case State.Crouch:
+            case State.CrouchWalking:
+            case State.TiltWalking:
+                MyCamera.Turn(look,this.transform);
 
+                break;
+            case State.Tilt:
+            case State.CrouchTilt:
+            case State.Hidden:
+                MyCamera.TurnHolder(look);
+
+                break;
+            case State.TiltRunning:
+                MyCamera.TiltDirecctionRun(GetTiltDireccion());
+
+                break;
+        }
     }
 
 }

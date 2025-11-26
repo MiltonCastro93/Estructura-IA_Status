@@ -7,9 +7,12 @@ using UnityEngine.UIElements;
 public abstract class CharacterHuman : CharacterInput
 {
     protected CharacterController _cc;
-    protected enum State { Idle, Walking, Running, Crouch, CrouchWalking, Hidden, Tilt, TiltWalking, TiltRunning }
+    protected enum State { Idle, Walking, Running, Crouch, CrouchWalking, CrouchTilt, Tilt, TiltWalking, TiltRunning, Hidden }
     [SerializeField] protected State CurrentState;
-    Vector2 TiltOrientacion = Vector2.zero;
+
+    protected bool IsRunning = false;
+
+    protected Vector2 TiltOrientacion = Vector2.zero;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,8 +25,7 @@ public abstract class CharacterHuman : CharacterInput
     //Regula los estados del Personaje
     protected virtual void Update()
     {
-
-
+        TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
 
     }
 
@@ -57,33 +59,108 @@ public abstract class CharacterHuman : CharacterInput
             return;
         }
 
+        if(CurrentState == State.Tilt)
+        {
+            CurrentState = State.CrouchTilt;
+            return;
+        }
+
+        if(CurrentState == State.CrouchTilt)
+        {
+            CurrentState = State.Tilt;
+            return;
+        }
+
         //Si estoy Corriendo se deslice
+        if (CurrentState == State.Running)
+        {
+            Debug.Log("Deslizando, termina en Crouch");
+        }
+
+        
     }
 
     //Eventos por Hold
     protected override void OnTilts(InputAction.CallbackContext ctx)
     {
         base.OnTilts(ctx);
-        TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
-        if (CurrentState == State.TiltRunning)
+        
+        if(CurrentState == State.Idle)
         {
+            CurrentState = State.Tilt;
             return;
         }
-        CurrentState = State.Tilt;
+
+        if(CurrentState == State.Walking)
+        {
+            CurrentState = State.TiltWalking;
+            return;
+        }
+
+        if (CurrentState == State.Running) 
+        {
+            CurrentState = State.TiltRunning;
+            return;
+        }
+
+        if(CurrentState == State.Crouch)
+        {
+            CurrentState = State.CrouchTilt;
+            return;
+        }
+
+    }
+
+    protected override void FinishTilts(InputAction.CallbackContext ctx)
+    {
+        base.FinishTilts(ctx);
+        if(CurrentState == State.Tilt)
+        {
+            CurrentState = State.Idle;
+            return;
+        }
+
+        if (CurrentState == State.TiltWalking)
+        {
+            CurrentState = State.Walking;
+            return;
+        }
+
+        if(CurrentState == State.TiltRunning)
+        {
+            CurrentState = State.Running;
+            return;
+        }
+
+        if(CurrentState == State.CrouchTilt)
+        {
+            CurrentState = State.Crouch;
+            return;
+        }
 
     }
 
     protected override void OnRun(InputAction.CallbackContext ctx)
     {
         base.OnRun(ctx);
-        if(CurrentState == State.Walking)
+        IsRunning = true;
+
+        if (CurrentState == State.Walking)
         {
             CurrentState = State.Running;
+            return;
         }
 
         if (CurrentState == State.Tilt)
         {
             CurrentState = State.TiltRunning;
+            return;
+        }
+
+        if (CurrentState == State.TiltWalking)
+        {
+            CurrentState = State.TiltRunning;
+            return;
         }
 
     }
@@ -91,13 +168,22 @@ public abstract class CharacterHuman : CharacterInput
     protected override void FinishRun(InputAction.CallbackContext ctx)
     {
         base.FinishRun(ctx);
+        IsRunning = false;
+
         if (CurrentState == State.Running) {
             CurrentState = State.Walking;
+            return;
         }
+        if(CurrentState == State.TiltRunning)
+        {
+            CurrentState = State.TiltWalking;
+            return;
+        }
+
 
     }
 
-    //26/11/2025
+
     protected override void OnWalking(InputAction.CallbackContext ctx)
     {
         base.OnWalking(ctx);
@@ -113,6 +199,14 @@ public abstract class CharacterHuman : CharacterInput
             return;
         }
 
+        if (CurrentState == State.Tilt)
+        {
+            CurrentState = State.TiltWalking;
+            return;
+        }
+
+
+        //camina agachado y inclinado outlast? CrouchTilt
     }
 
     protected override void FinishWalking(InputAction.CallbackContext ctx)
@@ -122,13 +216,22 @@ public abstract class CharacterHuman : CharacterInput
         if(CurrentState == State.Walking)
         {
             CurrentState = State.Idle;
+            return;
         }
 
         if(CurrentState == State.CrouchWalking)
         {
             CurrentState = State.Crouch;
+            return;
+        }
+
+        if(CurrentState == State.TiltWalking)
+        {
+            CurrentState = State.Tilt;
+            return;
         }
 
     }
+
 
 }

@@ -12,7 +12,7 @@ public class HolderCamera : MonoBehaviour
     private float pitchGlobalY = 0f, pitchX = 0f, pitchY = 0f;
     private CharacterEspia _characterEspia;
     private bool allowFreeLook = true;
-    
+
     private Coroutine resetRotCoroutine;//Referencia a la corrutina de reseteo de rotacion
 
     private Ifurniture RelativeMueble;

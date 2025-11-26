@@ -11,7 +11,6 @@ public abstract class CharacterInput : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
-
     //Aniado nuevos eventos aqui!
     protected virtual void OnEnable()
     {
@@ -45,7 +44,6 @@ public abstract class CharacterInput : MonoBehaviour
 
         inputs.Disable();
     }
-
 
     //Se hacen las Primeras instancias de los eventos por teclados
     protected virtual void OnCrouchPerformed(InputAction.CallbackContext ctx)
