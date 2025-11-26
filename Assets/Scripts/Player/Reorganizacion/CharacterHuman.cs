@@ -20,54 +20,114 @@ public abstract class CharacterHuman : CharacterInput
     }
 
     //Regula los estados del Personaje
-    protected override void Update()
+    protected virtual void Update()
     {
-        base.Update();
-        
+
+
 
     }
 
 
-    //Modifico el metodo de agacharse
+    //Eventos por Touchs
     protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
     {
         base.OnCrouchPerformed(ctx);
-        if(_cc.velocity.sqrMagnitude <= 30f)
+
+        if (CurrentState == State.Idle)
         {
-            CurrentState = CurrentState != State.Crouch ? State.Crouch : State.Idle;
-        }
-
-
-    }
-
-    //modifico el metodo de correr
-    protected override void OnRun(InputAction.CallbackContext ctx)
-    {
-        if (CurrentState == State.Tilt)
-        {
-            CurrentState = State.TiltRunning;
+            CurrentState = State.Crouch;
             return;
         }
 
-        CurrentState = State.Running;
+        if (CurrentState == State.Walking)
+        {
+            CurrentState = State.CrouchWalking;
+            return;
+        }
+
+        if (CurrentState == State.Crouch)
+        {
+            CurrentState = State.Idle;
+            return;
+        }
+
+        if(CurrentState == State.CrouchWalking)
+        {
+            CurrentState = State.Walking;
+            return;
+        }
+
+        //Si estoy Corriendo se deslice
     }
 
-    protected override void FinishRun(InputAction.CallbackContext ctx)
+    //Eventos por Hold
+    protected override void OnTilts(InputAction.CallbackContext ctx)
     {
-        base.FinishRun(ctx);
-        CurrentState = State.Idle;
-    }
-
-
-    protected override void Tilts()
-    {
-        base.Tilts();
+        base.OnTilts(ctx);
         TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
         if (CurrentState == State.TiltRunning)
         {
             return;
         }
         CurrentState = State.Tilt;
+
+    }
+
+    protected override void OnRun(InputAction.CallbackContext ctx)
+    {
+        base.OnRun(ctx);
+        if(CurrentState == State.Walking)
+        {
+            CurrentState = State.Running;
+        }
+
+        if (CurrentState == State.Tilt)
+        {
+            CurrentState = State.TiltRunning;
+        }
+
+    }
+
+    protected override void FinishRun(InputAction.CallbackContext ctx)
+    {
+        base.FinishRun(ctx);
+        if (CurrentState == State.Running) {
+            CurrentState = State.Walking;
+        }
+
+    }
+
+    //26/11/2025
+    protected override void OnWalking(InputAction.CallbackContext ctx)
+    {
+        base.OnWalking(ctx);
+        if (CurrentState == State.Idle)
+        {
+            CurrentState = State.Walking;
+            return;
+        }
+
+        if (CurrentState == State.Crouch)
+        {
+            CurrentState = State.CrouchWalking;
+            return;
+        }
+
+    }
+
+    protected override void FinishWalking(InputAction.CallbackContext ctx)
+    {
+        base.FinishWalking(ctx);
+
+        if(CurrentState == State.Walking)
+        {
+            CurrentState = State.Idle;
+        }
+
+        if(CurrentState == State.CrouchWalking)
+        {
+            CurrentState = State.Crouch;
+        }
 
     }
 

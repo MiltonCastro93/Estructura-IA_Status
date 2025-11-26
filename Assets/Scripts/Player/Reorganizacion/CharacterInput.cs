@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 public abstract class CharacterInput : MonoBehaviour
 {
     protected InputSystem_Actions inputs;
-    protected bool isSprinting = false;
-    private bool isTilt = false;
 
     protected virtual void Awake()
     {
@@ -13,14 +11,6 @@ public abstract class CharacterInput : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
-    protected virtual void Update()
-    {
-        if (isTilt)
-        {
-            Tilts();
-        }
-
-    }
 
     //Aniado nuevos eventos aqui!
     protected virtual void OnEnable()
@@ -32,8 +22,11 @@ public abstract class CharacterInput : MonoBehaviour
         inputs.Player.Sprint.performed += OnRun;
         inputs.Player.Sprint.canceled += FinishRun;
 
-        inputs.Player.Tilt.performed += ctx => isTilt = true;
-        inputs.Player.Tilt.canceled += ctx => isTilt = false;
+        inputs.Player.Move.performed += OnWalking;
+        inputs.Player.Move.canceled += FinishWalking;
+
+        inputs.Player.Tilt.performed += OnTilts;
+        inputs.Player.Tilt.canceled += FinishTilts;
     }
 
     protected virtual void OnDisable()
@@ -41,11 +34,15 @@ public abstract class CharacterInput : MonoBehaviour
         inputs.Player.Crouch.performed -= OnCrouchPerformed;
         inputs.Player.Attack.performed -= OnAttack;
 
-        inputs.Player.Sprint.performed += OnRun;
-        inputs.Player.Sprint.canceled += FinishRun;
+        inputs.Player.Sprint.performed -= OnRun;
+        inputs.Player.Sprint.canceled -= FinishRun;
 
-        inputs.Player.Tilt.performed -= ctx => isTilt = true;
-        inputs.Player.Tilt.canceled -= ctx => isTilt = false;
+        inputs.Player.Move.performed -= OnWalking;
+        inputs.Player.Move.canceled -= FinishWalking;
+
+        inputs.Player.Tilt.performed -= OnTilts;
+        inputs.Player.Tilt.canceled -= FinishTilts;
+
         inputs.Disable();
     }
 
@@ -92,6 +89,15 @@ public abstract class CharacterInput : MonoBehaviour
 
     }
 
+    protected virtual void OnTilts(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Start Inclinacion");
+    }
+    protected virtual void FinishTilts(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Dejo de Inclinar");
+    }
+
     protected virtual void OnRun(InputAction.CallbackContext ctx)
     {
         Debug.Log("Corriendo");
@@ -102,9 +108,15 @@ public abstract class CharacterInput : MonoBehaviour
         Debug.Log("Dejo de Correr");
     }
 
-    protected virtual void Tilts()
+
+    protected virtual void OnWalking(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Inclinacion");
+        Debug.Log("Empezo a Caminar");
+    }
+
+    protected virtual void FinishWalking(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Dejo de Caminar");
     }
 
 }
