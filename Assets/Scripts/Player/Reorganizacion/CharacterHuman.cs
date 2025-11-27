@@ -37,6 +37,18 @@ public abstract class CharacterHuman : CharacterInput
 
     }
 
+    protected virtual void LateUpdate()
+    {
+        if (CurrentState == State.PreHidden)
+        {
+            CurrentState = State.Hidden;
+            _cc.transform.position = rayItem.ModeHiddent();
+        }
+
+
+
+    }
+
 
     //Eventos por Touchs
     protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
@@ -251,33 +263,22 @@ public abstract class CharacterHuman : CharacterInput
                 if(CurrentState == State.Idle)
                 {
                     CurrentState = State.PreHidden;
-                }
-
-                if(CurrentState == State.PreHidden)
-                {
-                    Invoke("PassState", 0.1f);
-                    return;
-
-                }
-
-                if(CurrentState == State.Hidden)
-                {
-                    CurrentState = State.OutHidden;
                     return;
                 }
+
+
 
 
             }
 
         }
-        CurrentState = State.Idle;
-    }
 
+        if (CurrentState == State.Hidden)
+        {
+            CurrentState = State.OutHidden;
+            return;
+        }
 
-    private void PassState()
-    {
-        CurrentState = State.Hidden;
-        CancelInvoke("PassState");
     }
 
 }

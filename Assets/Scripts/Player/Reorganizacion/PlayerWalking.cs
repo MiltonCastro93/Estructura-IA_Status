@@ -33,9 +33,28 @@ public class PlayerWalking : CharacterHuman
 
         CheckStatus();
 
+        if (CurrentState == State.Hidden)
+        {
+            return;
+        }
+
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
     }
+
+    protected override void LateUpdate()
+    {
+        base.LateUpdate();
+        if (CurrentState == State.OutHidden)
+        {
+            _cc.transform.position = PreHidden;
+            return;
+        }
+
+
+    }
+
+
 
     //Metodo para mover al personaje, y tambien, aplico la gravedad
     void PlayerMove(Vector3 dir, float gravityMultiplier)
@@ -53,8 +72,8 @@ public class PlayerWalking : CharacterHuman
         }
 
         Vector3 final = new Vector3(horizontal.x, verticalVelocity, horizontal.z);
-
         _cc.Move(final * Time.deltaTime);
+
     }
 
     //Camina segun el estado del Personaje, hacia el Forward de la camara o del Personaje 
@@ -84,10 +103,6 @@ public class PlayerWalking : CharacterHuman
         switch (CurrentState)
         {
             case State.OutHidden:
-                {
-                    _cc.transform.position = PreHidden;
-                    goto case State.Idle;
-                }
             case State.Idle:
             case State.Walking:
             case State.Running:
@@ -106,10 +121,6 @@ public class PlayerWalking : CharacterHuman
                     goto case State.Hidden;
                 }
             case State.Hidden:
-                {
-                    Invoke("StartHidden", 0.2f);
-                    goto case State.CrouchTilt;
-                }
             case State.CrouchTilt:
             case State.Tilt:
                 MyCamera.TiltCono(look, GetTiltDireccion());
@@ -122,11 +133,8 @@ public class PlayerWalking : CharacterHuman
         }
     }
 
-    private void LateUpdate()
-    {
-        if(CurrentState == State.Hidden && _cc.transform.position != rayItem.ModeHiddent()) {
-            _cc.transform.position = rayItem.ModeHiddent();
-        }
-    }
 
 }
+
+
+//Glich de dato, al momento de hacer OutHidden, ya no puedo interactuar, ni moverme. se queda trabado por el LATEUPDATE y su estado del OUTHIDDEN

@@ -1,3 +1,4 @@
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class CastObjectRayItem : MonoBehaviour
@@ -9,28 +10,23 @@ public class CastObjectRayItem : MonoBehaviour
     {
         RaycastHit hit;
         
-
         if (Physics.Raycast(transform.position, transform.forward, out hit, distanceFire))
         {
-            Debug.Log($"Choco contra {hit.collider.transform.gameObject.name}");
             Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
 
             Ifurniture mueble = hit.collider.gameObject.GetComponent<Ifurniture>();
 
             if (mueble != null)
             {
-                positionHidden = GetHiddentPos(mueble);
+                positionHidden = mueble.EjecutedPos();
                 return true;
             }
-            
+
+
+            Debug.Log($"No es un Mueble, es un {hit.collider.transform.gameObject.name}");
         }
 
         return false;
-    }
-
-    private Vector3 GetHiddentPos(Ifurniture obj)
-    {
-        return obj.EjecutedPos();
     }
 
     public Vector3 ModeHiddent()
