@@ -11,6 +11,8 @@ public class PlayerWalking : CharacterHuman
     private float speed = 5f, verticalVelocity = 0f;
     private ControllerCamera MyCamera;
 
+    [SerializeField] private Vector3 PreHidden = Vector3.zero;
+
     protected override void Awake()
     {
         base.Awake();
@@ -28,11 +30,11 @@ public class PlayerWalking : CharacterHuman
     {
         base.Update();
         speed = IsRunning ? speedRunning : speedWalking;
+
         CheckStatus();
 
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
-
     }
 
     //Metodo para mover al personaje, y tambien, aplico la gravedad
@@ -81,6 +83,11 @@ public class PlayerWalking : CharacterHuman
         Vector2 look = inputs.Player.Look.ReadValue<Vector2>();
         switch (CurrentState)
         {
+            case State.OutHidden:
+                {
+                    _cc.transform.position = PreHidden;
+                    goto case State.Idle;
+                }
             case State.Idle:
             case State.Walking:
             case State.Running:
@@ -93,9 +100,18 @@ public class PlayerWalking : CharacterHuman
                 MyCamera.TiltWalking(look, this.transform, GetTiltDireccion());
 
                 break;
-            case State.Tilt:
-            case State.CrouchTilt:
+            case State.PreHidden:////PreHidden, Hidden, OutHidden
+                {
+                    PreHidden = transform.position;
+                    goto case State.Hidden;
+                }
             case State.Hidden:
+                {
+                    Invoke("StartHidden", 0.2f);
+                    goto case State.CrouchTilt;
+                }
+            case State.CrouchTilt:
+            case State.Tilt:
                 MyCamera.TiltCono(look, GetTiltDireccion());
 
                 break;
@@ -103,6 +119,13 @@ public class PlayerWalking : CharacterHuman
                 MyCamera.BackWardRun(GetTiltDireccion());
 
                 break;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if(CurrentState == State.Hidden && _cc.transform.position != rayItem.ModeHiddent()) {
+            _cc.transform.position = rayItem.ModeHiddent();
         }
     }
 

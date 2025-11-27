@@ -7,12 +7,13 @@ using UnityEngine.UIElements;
 public abstract class CharacterHuman : CharacterInput
 {
     protected CharacterController _cc;
-    protected enum State { Idle, Walking, Running, Crouch, CrouchWalking, CrouchTilt, Tilt, TiltWalking, TiltRunning, Hidden }
+    protected enum State { Idle, Walking, Running, Crouch, CrouchWalking, CrouchTilt, Tilt, TiltWalking, TiltRunning, PreHidden, Hidden, OutHidden }
     [SerializeField] protected State CurrentState;
 
     protected bool IsRunning = false;
 
     protected Vector2 TiltOrientacion = Vector2.zero;
+    [SerializeField] protected CastObjectRayItem rayItem;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,6 +21,13 @@ public abstract class CharacterHuman : CharacterInput
     {
         base.Awake();
         _cc = GetComponent<CharacterController>();
+
+        if (rayItem == null)
+        {
+            Debug.LogError("Este GO No Posee la logica de deteccion");
+            return;
+        }
+
     }
 
     //Regula los estados del Personaje
@@ -233,5 +241,43 @@ public abstract class CharacterHuman : CharacterInput
 
     }
 
+    protected override void OnFire(InputAction.CallbackContext ctx) //Fallando! el estado al salir del Hidden
+    {
+        base.OnFire(ctx);
+        if (rayItem != null)
+        {
+            if (rayItem.RayFire())
+            {
+                if(CurrentState == State.Idle)
+                {
+                    CurrentState = State.PreHidden;
+                }
+
+                if(CurrentState == State.PreHidden)
+                {
+                    Invoke("PassState", 0.1f);
+                    return;
+
+                }
+
+                if(CurrentState == State.Hidden)
+                {
+                    CurrentState = State.OutHidden;
+                    return;
+                }
+
+
+            }
+
+        }
+        CurrentState = State.Idle;
+    }
+
+
+    private void PassState()
+    {
+        CurrentState = State.Hidden;
+        CancelInvoke("PassState");
+    }
 
 }

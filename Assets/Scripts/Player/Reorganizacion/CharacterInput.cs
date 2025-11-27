@@ -16,7 +16,7 @@ public abstract class CharacterInput : MonoBehaviour
     {
         inputs.Enable();
         inputs.Player.Crouch.performed += OnCrouchPerformed;
-        inputs.Player.Attack.performed += OnAttack;
+        inputs.Player.Attack.performed += OnFire;
 
         inputs.Player.Sprint.performed += OnRun;
         inputs.Player.Sprint.canceled += FinishRun;
@@ -31,7 +31,7 @@ public abstract class CharacterInput : MonoBehaviour
     protected virtual void OnDisable()
     {
         inputs.Player.Crouch.performed -= OnCrouchPerformed;
-        inputs.Player.Attack.performed -= OnAttack;
+        inputs.Player.Attack.performed -= OnFire;
 
         inputs.Player.Sprint.performed -= OnRun;
         inputs.Player.Sprint.canceled -= FinishRun;
@@ -51,39 +51,9 @@ public abstract class CharacterInput : MonoBehaviour
         Debug.Log("Agachado");
     }
 
-    protected virtual void OnAttack(InputAction.CallbackContext ctx)
+    protected virtual void OnFire(InputAction.CallbackContext ctx)
     {
         Debug.Log("Interactuar");
-        //RaycastHit hit;
-
-        //if (Physics.Raycast(transform.position, transform.forward, out hit, 3f))
-        //{
-        //    Debug.Log($"Choco contra {hit.collider.transform.gameObject.name}");
-        //    Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
-
-        //    if (RelativeMueble != null && hit.collider.CompareTag("Mueble"))
-        //    {
-        //        // ENTRAR
-        //        if (!_characterEspia.GetStatus())
-        //        {
-        //            // Guardar posición REAL del personaje
-        //            OldPosition = transform.parent.position;
-
-        //            _characterEspia.SetStatus(true);
-
-        //            // Mover al punto de ejecución del mueble
-        //            transform.parent.position = RelativeMueble.EjecutedPos();
-        //        }
-        //        // SALIR
-        //        else
-        //        {
-        //            // Volver a la posición anterior
-        //            transform.parent.position = OldPosition;
-        //            _characterEspia.SetStatus(false);
-
-        //        }
-        //    }
-        //}
 
     }
 
