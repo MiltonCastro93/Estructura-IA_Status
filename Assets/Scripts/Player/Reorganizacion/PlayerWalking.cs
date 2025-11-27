@@ -86,18 +86,21 @@ public class PlayerWalking : CharacterHuman
             case State.Running:
             case State.Crouch:
             case State.CrouchWalking:
+                MyCamera.NonTilt(look, this.transform);
+
+                break;
             case State.TiltWalking:
-                MyCamera.Turn(look,this.transform);
+                MyCamera.TiltWalking(look, this.transform, GetTiltDireccion());
 
                 break;
             case State.Tilt:
             case State.CrouchTilt:
             case State.Hidden:
-                MyCamera.TurnHolder(look);
+                MyCamera.TiltCono(look, GetTiltDireccion());
 
                 break;
             case State.TiltRunning:
-                MyCamera.TiltDirecctionRun(GetTiltDireccion());
+                MyCamera.BackWardRun(GetTiltDireccion());
 
                 break;
         }
