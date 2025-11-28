@@ -24,6 +24,12 @@ public class CastObjectRayItem : MonoBehaviour
                 return true;
             }
 
+            Iinteraction Aberturas = hit.collider.gameObject.GetComponent<Iinteraction>();
+            if (Aberturas != null) {
+                Aberturas.EjecutedInteraction();
+                return false;
+            }
+
 
             Debug.Log($"No es un Mueble, es un {hit.collider.transform.gameObject.name}");
         }

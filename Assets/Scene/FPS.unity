@@ -664,6 +664,7 @@ GameObject:
   - component: {fileID: 547068349}
   - component: {fileID: 547068348}
   - component: {fileID: 547068347}
+  - component: {fileID: 547068351}
   - component: {fileID: 547068350}
   m_Layer: 0
   m_Name: Der
@@ -776,6 +777,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfbb695274ed684487e8ec8580b3a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LateralMovement
+  IsOpen: 0
+--- !u!95 &547068351
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547068345}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5e45e12e0c96e7d40b6434d75e5145de, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &600688706
 GameObject:
   m_ObjectHideFlags: 0
@@ -4482,7 +4506,6 @@ GameObject:
   - component: {fileID: 1440991048}
   - component: {fileID: 1440991047}
   - component: {fileID: 1440991046}
-  - component: {fileID: 1440991049}
   m_Layer: 0
   m_Name: Izq
   m_TagString: Untagged
@@ -4582,18 +4605,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440991044}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1440991049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1440991044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfbb695274ed684487e8ec8580b3a97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LateralMovement
 --- !u!43 &1443628757
 Mesh:
   m_ObjectHideFlags: 0

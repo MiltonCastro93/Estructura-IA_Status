@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class LateralMovement : MonoBehaviour, IAberturas
+public class AberturasObject : MonoBehaviour, Iinteraction
 {
     private Animator _anim;
     [SerializeField] private bool IsOpen;
@@ -11,7 +11,7 @@ public class LateralMovement : MonoBehaviour, IAberturas
     }
 
 
-    public void Interaccion()
+    public void EjecutedInteraction()
     {
         IsOpen = !IsOpen;
         _anim.SetBool("Open", IsOpen);
