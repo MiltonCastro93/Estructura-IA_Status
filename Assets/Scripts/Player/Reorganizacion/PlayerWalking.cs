@@ -5,12 +5,11 @@ using UnityEngine.InputSystem;
 public class PlayerWalking : CharacterHuman
 {
     [SerializeField] Transform HolderTransform;
+    private ControllerCamera MyCamera;
 
     [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
     [SerializeField] private float gravity = 1f;
     private float speed = 5f, verticalVelocity = 0f;
-    private ControllerCamera MyCamera;
-
 
 
     protected override void Awake()
@@ -64,7 +63,7 @@ public class PlayerWalking : CharacterHuman
     }
 
     //Camina segun el estado del Personaje, hacia el Forward de la camara o del Personaje 
-    Vector3 OrientacionPlayer(Vector3 dir)
+    Vector3 OrientacionPlayer(Vector3 dir)//usar un bool para cambiar la direccion forward
     {
         Vector3 camForward = HolderTransform.forward;
         Vector3 camRight = HolderTransform.right;
@@ -76,12 +75,6 @@ public class PlayerWalking : CharacterHuman
         camRight.Normalize();
 
         return camForward * dir.z + camRight * dir.x;
-    }
-
-    //Envio la data quien la necesite: -> TiltDireccion Class
-    public Vector2 GetTiltDireccion()
-    {
-        return TiltOrientacion;
     }
 
     private void CheckStatus()
@@ -99,10 +92,10 @@ public class PlayerWalking : CharacterHuman
 
                 break;
             case State.TiltWalking:
-                MyCamera.TiltWalking(look, this.transform, GetTiltDireccion());
+                MyCamera.TiltWalking(look, this.transform, TiltOrientacion);
 
                 break;
-            case State.PreHidden:////PreHidden, Hidden, OutHidden
+            case State.PreHidden:
                 {
                     PreHidden = transform.position;
                     goto case State.Hidden;
@@ -110,11 +103,11 @@ public class PlayerWalking : CharacterHuman
             case State.Hidden:
             case State.CrouchTilt:
             case State.Tilt:
-                MyCamera.TiltCono(look, GetTiltDireccion());
+                MyCamera.TiltCono(look, TiltOrientacion);
 
                 break;
             case State.TiltRunning:
-                MyCamera.BackWardRun(GetTiltDireccion());
+                MyCamera.BackWardRun(TiltOrientacion);
 
                 break;
         }
@@ -122,6 +115,3 @@ public class PlayerWalking : CharacterHuman
 
 
 }
-
-
-//Glich de dato, al momento de hacer OutHidden, ya no puedo interactuar, ni moverme. se queda trabado por el LATEUPDATE y su estado del OUTHIDDEN

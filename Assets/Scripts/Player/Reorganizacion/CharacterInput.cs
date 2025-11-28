@@ -5,6 +5,7 @@ public abstract class CharacterInput : MonoBehaviour
 {
     protected InputSystem_Actions inputs;
 
+
     protected virtual void Awake()
     {
         inputs = new InputSystem_Actions();

@@ -4,7 +4,7 @@ using UnityEngine;
 public class CastObjectRayItem : MonoBehaviour
 {
     [SerializeField] float distanceFire = 3f;
-    [SerializeField] Vector3 positionHidden = Vector3.zero;
+    Vector3 positionHidden = Vector3.zero;
     Quaternion rotationHidden = Quaternion.identity;
 
     public bool RayFire() //Logica Aplicada, es true si ofrece una interaccion como (Ventanas, Puertas, Muebles, items)

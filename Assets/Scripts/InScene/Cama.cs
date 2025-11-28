@@ -10,6 +10,7 @@ public class Cama : MonoBehaviour, Ifurniture
     public Vector3 EjecutedPos() => transform.TransformDirection(PostHidden.position);//Pasarle la rotacion tambien, sino genera molestias para ver
     public Quaternion EjecutedRot() => PostHidden.rotation;
 
+    public Quaternion rot() => PostHidden.rotation;
 
     private void OnDrawGizmos()
     {

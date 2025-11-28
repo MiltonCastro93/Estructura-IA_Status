@@ -12,10 +12,10 @@ public abstract class CharacterHuman : CharacterInput
 
     protected bool IsRunning = false;
 
-    protected Vector2 TiltOrientacion = Vector2.zero;
     [SerializeField] protected CastObjectRayItem rayItem;
 
-    [SerializeField] protected Vector3 PreHidden = Vector3.zero;
+    protected Vector3 PreHidden = Vector3.zero;
+    protected Vector2 TiltOrientacion = Vector2.zero;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,7 +35,7 @@ public abstract class CharacterHuman : CharacterInput
     //Regula los estados del Personaje
     protected virtual void Update()
     {
-        TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
+
 
     }
 
@@ -114,6 +114,8 @@ public abstract class CharacterHuman : CharacterInput
     {
         base.OnTilts(ctx);
         
+        TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
+
         if(CurrentState == State.Idle)
         {
             CurrentState = State.Tilt;
@@ -143,7 +145,9 @@ public abstract class CharacterHuman : CharacterInput
     protected override void FinishTilts(InputAction.CallbackContext ctx)
     {
         base.FinishTilts(ctx);
-        if(CurrentState == State.Tilt)
+        TiltOrientacion = Vector2.zero;
+
+        if (CurrentState == State.Tilt)
         {
             CurrentState = State.Idle;
             return;
@@ -268,7 +272,7 @@ public abstract class CharacterHuman : CharacterInput
 
     }
 
-    protected override void OnFire(InputAction.CallbackContext ctx) //Fallando! el estado al salir del Hidden
+    protected override void OnFire(InputAction.CallbackContext ctx) //"Castea" el objeto. es un Item o algo Interactable?
     {
         base.OnFire(ctx);
         if (rayItem != null)
