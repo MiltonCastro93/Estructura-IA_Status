@@ -11,7 +11,7 @@ public class PlayerWalking : CharacterHuman
     private float speed = 5f, verticalVelocity = 0f;
     private ControllerCamera MyCamera;
 
-    [SerializeField] private Vector3 PreHidden = Vector3.zero;
+
 
     protected override void Awake()
     {
@@ -41,19 +41,6 @@ public class PlayerWalking : CharacterHuman
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
     }
-
-    protected override void LateUpdate()
-    {
-        base.LateUpdate();
-        if (CurrentState == State.OutHidden)
-        {
-            _cc.transform.position = PreHidden;
-            return;
-        }
-
-
-    }
-
 
 
     //Metodo para mover al personaje, y tambien, aplico la gravedad

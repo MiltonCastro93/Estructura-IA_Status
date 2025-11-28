@@ -5,8 +5,9 @@ public class CastObjectRayItem : MonoBehaviour
 {
     [SerializeField] float distanceFire = 3f;
     [SerializeField] Vector3 positionHidden = Vector3.zero;
+    Quaternion rotationHidden = Quaternion.identity;
 
-    public bool RayFire()
+    public bool RayFire() //Logica Aplicada, es true si ofrece una interaccion como (Ventanas, Puertas, Muebles, items)
     {
         RaycastHit hit;
         
@@ -18,7 +19,8 @@ public class CastObjectRayItem : MonoBehaviour
 
             if (mueble != null)
             {
-                positionHidden = mueble.EjecutedPos();
+                positionHidden = mueble.EjecutedPos(); //Se Obtiene el lugar donde se esconde el player
+                rotationHidden = mueble.EjecutedRot(); //Se obtiene la rotacion deseada para que el jugador vea
                 return true;
             }
 
@@ -32,6 +34,12 @@ public class CastObjectRayItem : MonoBehaviour
     public Vector3 ModeHiddent()
     {
         return positionHidden;
+    }
+
+    public Quaternion RotModeHidden()
+    {
+
+        return rotationHidden;
     }
 
 }

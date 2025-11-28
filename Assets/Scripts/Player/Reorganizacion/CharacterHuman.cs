@@ -15,6 +15,8 @@ public abstract class CharacterHuman : CharacterInput
     protected Vector2 TiltOrientacion = Vector2.zero;
     [SerializeField] protected CastObjectRayItem rayItem;
 
+    [SerializeField] protected Vector3 PreHidden = Vector3.zero;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Awake()
@@ -43,8 +45,15 @@ public abstract class CharacterHuman : CharacterInput
         {
             CurrentState = State.Hidden;
             _cc.transform.position = rayItem.ModeHiddent();
+            _cc.transform.rotation = rayItem.RotModeHidden();
+            return;
         }
 
+        if (CurrentState == State.OutHidden)
+        {
+            _cc.transform.position = PreHidden;
+            return;
+        }
 
 
     }
@@ -225,6 +234,12 @@ public abstract class CharacterHuman : CharacterInput
             return;
         }
 
+        if(CurrentState == State.OutHidden)
+        {
+            CurrentState = State.Walking;
+            return;
+        }
+
 
         //camina agachado y inclinado outlast? CrouchTilt
     }
@@ -266,6 +281,11 @@ public abstract class CharacterHuman : CharacterInput
                     return;
                 }
 
+                if(CurrentState == State.OutHidden)
+                {
+                    CurrentState = State.PreHidden;
+                    return;
+                }
 
 
 
