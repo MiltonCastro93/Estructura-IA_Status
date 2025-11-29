@@ -72,42 +72,28 @@ public abstract class CharacterHuman : CharacterInput
             base.OnCrouchPerformed(ctx);
             IsCrouch = !IsCrouch;
 
-            if (CurrentState == State.Idle)
+            switch (CurrentState)
             {
-                CurrentState = State.Crouch;
-                return;
-            }
+                case State.Idle:
+                    CurrentState = State.Crouch;
+                    break;
+                case State.Walking:
+                    CurrentState = State.CrouchWalking;
+                    break;
+                case State.Crouch:
+                    CurrentState = State.Idle;
+                    break;
+                case State.CrouchWalking:
+                    CurrentState = State.Walking;
+                    break;
+                case State.Tilt:
+                    CurrentState = State.CrouchTilt;
+                    break;
+                case State.CrouchTilt:
+                    CurrentState = State.Tilt;
+                    break;
 
-            if (CurrentState == State.Walking)
-            {
-                CurrentState = State.CrouchWalking;
-                return;
             }
-
-            if (CurrentState == State.Crouch)
-            {
-                CurrentState = State.Idle;
-                return;
-            }
-
-            if (CurrentState == State.CrouchWalking)
-            {
-                CurrentState = State.Walking;
-                return;
-            }
-
-            if (CurrentState == State.Tilt)
-            {
-                CurrentState = State.CrouchTilt;
-                return;
-            }
-
-            if (CurrentState == State.CrouchTilt)
-            {
-                CurrentState = State.Tilt;
-                return;
-            }
-
 
         }
         else
@@ -129,28 +115,21 @@ public abstract class CharacterHuman : CharacterInput
     {
         base.OnTilts(ctx);
 
-        if(CurrentState == State.Idle)
+        switch (CurrentState)
         {
-            CurrentState = State.Tilt;
-            return;
-        }
+            case State.Idle:
+                CurrentState = State.Tilt;
+                break;
+            case State.Walking:
+                CurrentState = State.TiltWalking;
+                break;
+            case State.Running:
+                CurrentState = State.TiltRunning;
+                break;
+            case State.Crouch:
+                CurrentState = State.CrouchTilt;
+                break;
 
-        if(CurrentState == State.Walking)
-        {
-            CurrentState = State.TiltWalking;
-            return;
-        }
-
-        if (CurrentState == State.Running) 
-        {
-            CurrentState = State.TiltRunning;
-            return;
-        }
-
-        if(CurrentState == State.Crouch)
-        {
-            CurrentState = State.CrouchTilt;
-            return;
         }
 
     }
@@ -159,28 +138,20 @@ public abstract class CharacterHuman : CharacterInput
     {
         base.FinishTilts(ctx);
 
-        if (CurrentState == State.Tilt)
+        switch (CurrentState)
         {
-            CurrentState = State.Idle;
-            return;
-        }
-
-        if (CurrentState == State.TiltWalking)
-        {
-            CurrentState = State.Walking;
-            return;
-        }
-
-        if(CurrentState == State.TiltRunning)
-        {
-            CurrentState = State.Running;
-            return;
-        }
-
-        if(CurrentState == State.CrouchTilt)
-        {
-            CurrentState = State.Crouch;
-            return;
+            case State.Tilt:
+                CurrentState = State.Idle;
+                break;
+            case State.TiltWalking:
+                CurrentState = State.Walking;
+                break;
+            case State.TiltRunning:
+                CurrentState = State.Running;
+                break;
+            case State.CrouchTilt:
+                CurrentState = State.Crouch;
+                break;
         }
 
     }
@@ -190,22 +161,18 @@ public abstract class CharacterHuman : CharacterInput
         base.OnRun(ctx);
         IsRunning = true;
 
-        if (CurrentState == State.Walking)
+        switch (CurrentState)
         {
-            CurrentState = State.Running;
-            return;
-        }
+            case State.Walking:
+                CurrentState = State.Running;
+                break;
+            case State.Tilt:
+                CurrentState = State.TiltRunning;
+                break;
+            case State.TiltWalking:
+                CurrentState = State.TiltRunning;
+                break;
 
-        if (CurrentState == State.Tilt)
-        {
-            CurrentState = State.TiltRunning;
-            return;
-        }
-
-        if (CurrentState == State.TiltWalking)
-        {
-            CurrentState = State.TiltRunning;
-            return;
         }
 
     }
@@ -215,14 +182,15 @@ public abstract class CharacterHuman : CharacterInput
         base.FinishRun(ctx);
         IsRunning = false;
 
-        if (CurrentState == State.Running) {
-            CurrentState = State.Walking;
-            return;
-        }
-        if(CurrentState == State.TiltRunning)
+        switch (CurrentState)
         {
-            CurrentState = State.TiltWalking;
-            return;
+            case State.Running:
+                CurrentState = State.Walking;
+                break;
+            case State.TiltRunning:
+                CurrentState = State.TiltWalking;
+                break;
+
         }
 
 
@@ -232,30 +200,22 @@ public abstract class CharacterHuman : CharacterInput
     protected override void OnWalking(InputAction.CallbackContext ctx)
     {
         base.OnWalking(ctx);
-        if (CurrentState == State.Idle)
-        {
-            CurrentState = State.Walking;
-            return;
-        }
 
-        if (CurrentState == State.Crouch)
+        switch (CurrentState)
         {
-            CurrentState = State.CrouchWalking;
-            return;
+            case State.Idle:
+                CurrentState = State.Walking;
+                break;
+            case State.Crouch:
+                CurrentState = State.CrouchWalking;
+                break;
+            case State.Tilt:
+                CurrentState = State.TiltWalking;
+                break;
+            case State.OutHidden:
+                CurrentState = State.Walking;
+                break;
         }
-
-        if (CurrentState == State.Tilt)
-        {
-            CurrentState = State.TiltWalking;
-            return;
-        }
-
-        if(CurrentState == State.OutHidden)
-        {
-            CurrentState = State.Walking;
-            return;
-        }
-
 
         //camina agachado y inclinado outlast? CrouchTilt
     }
@@ -264,22 +224,18 @@ public abstract class CharacterHuman : CharacterInput
     {
         base.FinishWalking(ctx);
 
-        if(CurrentState == State.Walking)
+        switch (CurrentState)
         {
-            CurrentState = State.Idle;
-            return;
-        }
+            case State.Walking:
+                CurrentState = State.Idle;
+                break;
+            case State.CrouchWalking:
+                CurrentState = State.Crouch;
+                break;
+            case State.TiltWalking:
+                CurrentState = State.Tilt;
+                break;
 
-        if(CurrentState == State.CrouchWalking)
-        {
-            CurrentState = State.Crouch;
-            return;
-        }
-
-        if(CurrentState == State.TiltWalking)
-        {
-            CurrentState = State.Tilt;
-            return;
         }
 
     }

@@ -11,6 +11,10 @@ public class Escondite : MonoBehaviour, Ifurniture
     public Quaternion EjecutedRot() => PostHidden.rotation;
 
 
+
+
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

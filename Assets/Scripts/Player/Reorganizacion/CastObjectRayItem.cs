@@ -7,7 +7,7 @@ public class CastObjectRayItem : MonoBehaviour
     Vector3 positionHidden = Vector3.zero;
     Quaternion rotationHidden = Quaternion.identity;
 
-    public bool RayFire() //Logica Aplicada, es true si ofrece una interaccion como (Ventanas, Puertas, Muebles, items)
+    public bool RayFire() //Logica Aplicada, es true si ofrece un metodo para esconderse
     {
         RaycastHit hit;
         
