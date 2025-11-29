@@ -11,11 +11,13 @@ public abstract class CharacterHuman : CharacterInput
     [SerializeField] protected State CurrentState;
 
     protected bool IsRunning = false;
+    protected bool IsCrouch = false;
 
     [SerializeField] protected CastObjectRayItem rayItem;
+    [SerializeField] protected RayHeightPlayer PiesAltura;
 
     protected Vector3 PreHidden = Vector3.zero;
-    protected Vector2 TiltOrientacion = Vector2.zero;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,7 +34,7 @@ public abstract class CharacterHuman : CharacterInput
 
     }
 
-    //Regula los estados del Personaje
+
     protected virtual void Update()
     {
 
@@ -60,45 +62,54 @@ public abstract class CharacterHuman : CharacterInput
 
 
     //Eventos por Touchs
-    protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
+    protected override void OnCrouchPerformed(InputAction.CallbackContext ctx) //Debo tocar 2 veces para pararme
     {
-        base.OnCrouchPerformed(ctx);
+        PiesAltura.EjecutaComprobacionAltura();
 
-        if (CurrentState == State.Idle)
+        if (!PiesAltura.GetForcedCrouch())
         {
-            CurrentState = State.Crouch;
-            return;
+            base.OnCrouchPerformed(ctx);
+            IsCrouch = !IsCrouch;
+
+            if (CurrentState == State.Idle)
+            {
+                CurrentState = State.Crouch;
+                return;
+            }
+
+            if (CurrentState == State.Walking)
+            {
+                CurrentState = State.CrouchWalking;
+                return;
+            }
+
+            if (CurrentState == State.Crouch)
+            {
+                CurrentState = State.Idle;
+                return;
+            }
+
+            if (CurrentState == State.CrouchWalking)
+            {
+                CurrentState = State.Walking;
+                return;
+            }
+
+            if (CurrentState == State.Tilt)
+            {
+                CurrentState = State.CrouchTilt;
+                return;
+            }
+
+            if (CurrentState == State.CrouchTilt)
+            {
+                CurrentState = State.Tilt;
+                return;
+            }
+
+
         }
 
-        if (CurrentState == State.Walking)
-        {
-            CurrentState = State.CrouchWalking;
-            return;
-        }
-
-        if (CurrentState == State.Crouch)
-        {
-            CurrentState = State.Idle;
-            return;
-        }
-
-        if(CurrentState == State.CrouchWalking)
-        {
-            CurrentState = State.Walking;
-            return;
-        }
-
-        if(CurrentState == State.Tilt)
-        {
-            CurrentState = State.CrouchTilt;
-            return;
-        }
-
-        if(CurrentState == State.CrouchTilt)
-        {
-            CurrentState = State.Tilt;
-            return;
-        }
 
         //Si estoy Corriendo se deslice
         if (CurrentState == State.Running)
@@ -106,15 +117,12 @@ public abstract class CharacterHuman : CharacterInput
             Debug.Log("Deslizando, termina en Crouch");
         }
 
-        
     }
 
     //Eventos por Hold
     protected override void OnTilts(InputAction.CallbackContext ctx)
     {
         base.OnTilts(ctx);
-        
-        TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
 
         if(CurrentState == State.Idle)
         {
@@ -145,7 +153,6 @@ public abstract class CharacterHuman : CharacterInput
     protected override void FinishTilts(InputAction.CallbackContext ctx)
     {
         base.FinishTilts(ctx);
-        TiltOrientacion = Vector2.zero;
 
         if (CurrentState == State.Tilt)
         {

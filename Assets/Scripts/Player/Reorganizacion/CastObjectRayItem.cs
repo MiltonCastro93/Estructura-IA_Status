@@ -37,15 +37,7 @@ public class CastObjectRayItem : MonoBehaviour
         return false;
     }
 
-    public Vector3 ModeHiddent()
-    {
-        return positionHidden;
-    }
-
-    public Quaternion RotModeHidden()
-    {
-
-        return rotationHidden;
-    }
+    public Vector3 ModeHiddent() => positionHidden;
+    public Quaternion RotModeHidden() => rotationHidden;
 
 }

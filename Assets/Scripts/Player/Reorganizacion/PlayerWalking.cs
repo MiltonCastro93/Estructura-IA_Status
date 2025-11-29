@@ -10,7 +10,7 @@ public class PlayerWalking : CharacterHuman
     [SerializeField] private float speedWalking = 5f, speedRunning = 10f;
     [SerializeField] private float gravity = 1f;
     private float speed = 5f, verticalVelocity = 0f;
-
+    protected Vector2 TiltOrientacion = Vector2.zero;
 
     protected override void Awake()
     {
@@ -113,5 +113,22 @@ public class PlayerWalking : CharacterHuman
         }
     }
 
+    protected override void OnTilts(InputAction.CallbackContext ctx)
+    {
+        base.OnTilts(ctx);
+        TiltOrientacion = inputs.Player.Tilt.ReadValue<Vector2>();
+    }
+
+    protected override void FinishTilts(InputAction.CallbackContext ctx)
+    {
+        base.FinishTilts(ctx);
+        TiltOrientacion = Vector2.zero;
+    }
+
+    protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
+    {
+        base.OnCrouchPerformed(ctx);
+        transform.localScale = IsCrouch ? new Vector3(0.2f, 0.2f, 0.2f) : Vector3.one;
+    }
 
 }
