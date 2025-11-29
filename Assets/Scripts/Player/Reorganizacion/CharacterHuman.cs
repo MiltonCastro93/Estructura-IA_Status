@@ -62,9 +62,9 @@ public abstract class CharacterHuman : CharacterInput
 
 
     //Eventos por Touchs
-    protected override void OnCrouchPerformed(InputAction.CallbackContext ctx) //Debo tocar 2 veces para pararme
+    protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
     {
-        PiesAltura.EjecutaComprobacionAltura();
+        
 
         if (!PiesAltura.GetForcedCrouch())
         {
@@ -108,6 +108,10 @@ public abstract class CharacterHuman : CharacterInput
             }
 
 
+        }
+        else
+        {
+            PiesAltura.EjecutaComprobacionAltura();
         }
 
 

@@ -23,15 +23,15 @@ public class RayHeightPlayer : MonoBehaviour
                         Debug.Log("Aun estas dentro");
                         return;
                     }
-                    else
-                    {
-                        ForcedCrouch = false;
-                        Debug.Log("Te podes parar, y saltar");
-                    }
                     ActivateComprobation = false;
                 }
 
                 Debug.DrawLine(origen.origin, hit.point, Color.yellow);
+            }
+            else
+            {
+                ForcedCrouch = false;
+                Debug.Log("Te podes parar, y saltar");
             }
 
 
