@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Cama : MonoBehaviour, Ifurniture
+public class Escondite : MonoBehaviour, Ifurniture
 {
     [SerializeField] private Transform PostHidden;
 

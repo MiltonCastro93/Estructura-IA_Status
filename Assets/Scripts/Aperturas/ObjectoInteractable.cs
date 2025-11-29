@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class AberturasObject : MonoBehaviour, Iinteraction
+public class ObjectoInteractable : MonoBehaviour, Iinteraction
 {
     private Animator _anim;
     [SerializeField] private bool IsOpen;
