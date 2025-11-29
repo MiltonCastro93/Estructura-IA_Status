@@ -16,9 +16,7 @@ public abstract class CharacterHuman : CharacterInput
     [SerializeField] protected CastObjectRayItem rayItem;
     [SerializeField] protected RayHeightPlayer PiesAltura;
 
-    protected Vector3 PreHidden = Vector3.zero;
-
-
+    protected Vector3 OldPosition = Vector3.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Awake()
@@ -53,7 +51,11 @@ public abstract class CharacterHuman : CharacterInput
 
         if (CurrentState == State.OutHidden)
         {
-            _cc.transform.position = PreHidden;
+            if (!IsCrouch)
+            {
+                _cc.transform.position = new Vector3(OldPosition.x, 1.50f, OldPosition.z);
+            }
+
             return;
         }
 
@@ -65,8 +67,7 @@ public abstract class CharacterHuman : CharacterInput
     protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
     {
         
-
-        if (!PiesAltura.GetForcedCrouch())
+        if (!PiesAltura.GetForcedCrouch() && CurrentState != State.Hidden)
         {
             base.OnCrouchPerformed(ctx);
             IsCrouch = !IsCrouch;
@@ -290,19 +291,11 @@ public abstract class CharacterHuman : CharacterInput
         {
             if (rayItem.RayFire())
             {
-                if(CurrentState == State.Idle)
+                if(CurrentState != State.Hidden)
                 {
                     CurrentState = State.PreHidden;
                     return;
                 }
-
-                if(CurrentState == State.OutHidden)
-                {
-                    CurrentState = State.PreHidden;
-                    return;
-                }
-
-
 
             }
 

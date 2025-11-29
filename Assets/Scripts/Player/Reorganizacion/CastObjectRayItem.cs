@@ -31,7 +31,10 @@ public class CastObjectRayItem : MonoBehaviour
             }
 
 
+
+
             Debug.Log($"No es un Mueble, es un {hit.collider.transform.gameObject.name}");
+
         }
 
         return false;
@@ -39,5 +42,6 @@ public class CastObjectRayItem : MonoBehaviour
 
     public Vector3 ModeHiddent() => positionHidden;
     public Quaternion RotModeHidden() => rotationHidden;
+
 
 }

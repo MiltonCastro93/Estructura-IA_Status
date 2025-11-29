@@ -37,6 +37,7 @@ public class PlayerWalking : CharacterHuman
             return;
         }
 
+
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
     }
@@ -65,8 +66,8 @@ public class PlayerWalking : CharacterHuman
     //Camina segun el estado del Personaje, hacia el Forward de la camara o del Personaje 
     Vector3 OrientacionPlayer(Vector3 dir)//usar un bool para cambiar la direccion forward
     {
-        Vector3 camForward = HolderTransform.forward;
-        Vector3 camRight = HolderTransform.right;
+        Vector3 camForward = IsRunning ? _cc.transform.forward : HolderTransform.forward;
+        Vector3 camRight = IsRunning ? _cc.transform.right : HolderTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -97,7 +98,9 @@ public class PlayerWalking : CharacterHuman
                 break;
             case State.PreHidden:
                 {
-                    PreHidden = transform.position;
+                    OldPosition = transform.position;
+                    IsCrouch = false;
+                    transform.localScale = Vector3.one;
                     goto case State.Hidden;
                 }
             case State.Hidden:

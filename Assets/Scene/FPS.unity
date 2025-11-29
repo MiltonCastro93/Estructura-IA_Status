@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 234834881}
   - component: {fileID: 234834880}
   m_Layer: 0
-  m_Name: PosPlayer
+  m_Name: PosHidden
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1208,8 +1208,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.96432465, z: 1}
-  m_Center: {x: 0, y: 0.01783818, z: 0}
+  m_Size: {x: 1, y: 0.98925173, z: 1}
+  m_Center: {x: 0, y: 0.0053762393, z: 0}
 --- !u!23 &671497099
 MeshRenderer:
   m_ObjectHideFlags: 0
