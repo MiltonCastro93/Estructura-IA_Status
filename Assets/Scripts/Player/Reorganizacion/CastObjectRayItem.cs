@@ -7,6 +7,10 @@ public class CastObjectRayItem : MonoBehaviour
     Vector3 positionHidden = Vector3.zero;
     Quaternion rotationHidden = Quaternion.identity;
 
+    Vector3 outHidden = Vector3.zero; //nuevo
+
+    IModeHidden modeHidden;
+
     public bool RayFire() //Logica Aplicada, es true si ofrece un metodo para esconderse
     {
         RaycastHit hit;
@@ -15,26 +19,39 @@ public class CastObjectRayItem : MonoBehaviour
         {
             Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
 
-            Ifurniture mueble = hit.collider.gameObject.GetComponent<Ifurniture>();
+            IAction action = hit.collider.GetComponent<IAction>();
 
-            if (mueble != null)
+            if (action != null)
             {
-                positionHidden = mueble.EjecutedPos(); //Se Obtiene el lugar donde se esconde el player
-                rotationHidden = mueble.EjecutedRot(); //Se obtiene la rotacion deseada para que el jugador vea
+
+                action.Ejecuted();
+
+            }
+            else
+            {
+                Debug.Log("No posee animaciones");
+            }
+
+            //IModeHidden modeHidden = hit.collider.GetComponent<IModeHidden>();
+
+            modeHidden = hit.collider.GetComponent<IModeHidden>();
+
+            if (modeHidden != null)
+            {
+
+                positionHidden = modeHidden.PosHidden(); //Paso el vector para esconderse
+                rotationHidden = modeHidden.PosHiddenRotation(); //Paso el Quaternion
+                outHidden = modeHidden.OutHidden();
+
                 return true;
             }
-
-            Iinteraction Aberturas = hit.collider.gameObject.GetComponent<Iinteraction>();
-            if (Aberturas != null) {
-                Aberturas.EjecutedInteraction();
-                return false;
+            else
+            {
+                Debug.Log("No posee logica");
             }
-
-
 
 
             Debug.Log($"No es un Mueble, es un {hit.collider.transform.gameObject.name}");
-
         }
 
         return false;
@@ -42,6 +59,8 @@ public class CastObjectRayItem : MonoBehaviour
 
     public Vector3 ModeHiddent() => positionHidden;
     public Quaternion RotModeHidden() => rotationHidden;
+    public Vector3 ModoOutHidde() => outHidden; //Salida
 
+    public IModeHidden MuebleCurrent() => modeHidden;
 
 }

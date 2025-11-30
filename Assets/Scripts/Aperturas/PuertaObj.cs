@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObjectoInteractable : MonoBehaviour, Iinteraction
+public class PuertaObj : MonoBehaviour, IAction
 {
     private Animator _anim;
     [SerializeField] private bool IsOpen;
@@ -10,15 +10,11 @@ public class ObjectoInteractable : MonoBehaviour, Iinteraction
     }
 
 
-    public void EjecutedInteraction()
+    public void Ejecuted()
     {
         IsOpen = !IsOpen;
         _anim.SetBool("Open", IsOpen);
 
     }
-
-
-
-
 
 }

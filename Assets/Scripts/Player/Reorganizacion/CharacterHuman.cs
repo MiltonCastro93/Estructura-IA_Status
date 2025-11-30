@@ -14,6 +14,8 @@ public abstract class CharacterHuman : CharacterInput
     protected bool IsCrouch = false;
 
     [SerializeField] protected CastObjectRayItem rayItem;
+    protected IModeHidden CurrentMueble;
+
     [SerializeField] protected RayHeightPlayer PiesAltura;
 
     protected Vector3 OldPosition = Vector3.zero;
@@ -44,6 +46,10 @@ public abstract class CharacterHuman : CharacterInput
         if (CurrentState == State.PreHidden)
         {
             CurrentState = State.Hidden;
+            CurrentMueble = rayItem.MuebleCurrent();
+
+
+
             _cc.transform.position = rayItem.ModeHiddent();
             _cc.transform.rotation = rayItem.RotModeHidden();
             return;
@@ -51,6 +57,8 @@ public abstract class CharacterHuman : CharacterInput
 
         if (CurrentState == State.OutHidden)
         {
+            CurrentMueble = null;
+
             if (!IsCrouch)
             {
                 _cc.transform.position = new Vector3(OldPosition.x, 1.50f, OldPosition.z);
