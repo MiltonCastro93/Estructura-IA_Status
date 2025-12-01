@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AO_Escritorio
+  m_Controller: {fileID: 9100000, guid: 5e45e12e0c96e7d40b6434d75e5145de, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 6ad6db0d8d782ae4682f2fd423231e00, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cbfb1c6d307b2ba4b8e7f220338d4e31, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 88b703e815040804a8889c342cf50322, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 324c18c5137b5fe43b661338b70cc5b4, type: 2}

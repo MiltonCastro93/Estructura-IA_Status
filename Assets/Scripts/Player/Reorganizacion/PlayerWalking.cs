@@ -13,6 +13,10 @@ public class PlayerWalking : CharacterHuman
     private float speed = 5f, verticalVelocity = 0f;
     protected Vector2 TiltOrientacion = Vector2.zero;
 
+
+    private Animator _anim;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -21,22 +25,25 @@ public class PlayerWalking : CharacterHuman
             Debug.LogError("Este GO No Posee el ControllerCamera");
             return;
         }
-
         MyCamera = HolderTransform.GetComponentInChildren<ControllerCamera>();
+
+        _anim = GetComponent<Animator>();
     }
 
 
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
         CheckStatus();
 
         speed = IsRunning ? speedRunning : speedWalking;
 
         if (CurrentState == State.Hidden)
         {
+            _anim.applyRootMotion = true;
             return;
         }
+        _anim.applyRootMotion = false;
+
 
         Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
         PlayerMove(new Vector3(move.x, 0, move.y), gravity);
@@ -115,10 +122,11 @@ public class PlayerWalking : CharacterHuman
                 }
             case State.Hidden:
                 {
-                    if(CurrentMueble != null)
+
+                    if (CurrentMueble != null)
                     {
-                        CurrentMueble.RotOutHidden(look); //roto al pivote para tener un lugar para salir del escondite
-                        OldPosition = CurrentMueble.OutHidden(); //mientras estoy escondido, actualizo el vector3 de salida
+                        //CurrentMueble.RotOutHidden(look); //roto al pivote para tener un lugar para salir del escondite
+                        //OldPosition = CurrentMueble.OutHidden(); //mientras estoy escondido, actualizo el vector3 de salida
                     }
 
                     goto case State.CrouchTilt;
@@ -151,6 +159,38 @@ public class PlayerWalking : CharacterHuman
     {
         base.OnCrouchPerformed(ctx);
         transform.localScale = IsCrouch ? new Vector3(0.2f, 0.2f, 0.2f) : Vector3.one; //reproducira una animacion para que se agache
+    }
+
+
+
+    /// <summary>
+    /// ////ANimaciones
+    /// </summary>
+
+    public override void PreHiddenAnimation()//animacion play, despues llama a la funcion evento "InHidden"
+    {
+        base.PreHiddenAnimation();
+        _anim.SetTrigger("DoHidden");
+
+    }
+
+
+    public override void InHidden()
+    {
+        base.InHidden();
+        _anim.ResetTrigger("DoHidden");
+
+    }
+
+
+    private void OnAnimatorMove()
+    {
+        if (_cc != null && CurrentState == State.PreHidden)
+        {
+            Vector3 delta = _anim.deltaPosition;
+            _cc.Move(delta);
+            _cc.transform.rotation *= _anim.deltaRotation;
+        }
     }
 
 }

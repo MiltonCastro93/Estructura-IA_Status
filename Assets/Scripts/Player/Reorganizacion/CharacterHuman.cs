@@ -34,26 +34,17 @@ public abstract class CharacterHuman : CharacterInput
 
     }
 
-
-    protected virtual void Update()
-    {
-
-
-    }
-
     protected virtual void LateUpdate()
     {
-        if (CurrentState == State.PreHidden)
-        {
-            CurrentState = State.Hidden;
-            CurrentMueble = rayItem.MuebleCurrent();
+        //if (CurrentState == State.PreHidden)
+        //{
+        //    CurrentState = State.Hidden;
+        //    //CurrentMueble = rayItem.MuebleCurrent();
 
-
-
-            _cc.transform.position = rayItem.ModeHiddent();
-            _cc.transform.rotation = rayItem.RotModeHidden();
-            return;
-        }
+        //    //_cc.transform.position = rayItem.ModeHiddent();
+        //    //_cc.transform.rotation = rayItem.RotModeHidden();
+        //    return;
+        //}
 
         if (CurrentState == State.OutHidden)
         {
@@ -100,6 +91,7 @@ public abstract class CharacterHuman : CharacterInput
                 case State.CrouchTilt:
                     CurrentState = State.Tilt;
                     break;
+
 
             }
 
@@ -160,6 +152,8 @@ public abstract class CharacterHuman : CharacterInput
             case State.CrouchTilt:
                 CurrentState = State.Crouch;
                 break;
+
+
         }
 
     }
@@ -255,22 +249,39 @@ public abstract class CharacterHuman : CharacterInput
         {
             if (rayItem.RayFire())
             {
-                if(CurrentState != State.Hidden)
-                {
-                    CurrentState = State.PreHidden;
-                    return;
-                }
+                //if(CurrentState != State.Hidden)
+                //{
+                //    CurrentState = State.PreHidden;
+                //    return;
+                //}
 
             }
 
         }
 
-        if (CurrentState == State.Hidden)
+        if (CurrentState == State.Hidden)//aplicar animacion
         {
             CurrentState = State.OutHidden;
             return;
         }
 
     }
+
+
+    public virtual void PreHiddenAnimation()
+    {
+        CurrentState = State.PreHidden;
+        //dame los datos de pos, y su rot
+
+
+    }
+
+    public virtual void InHidden()
+    {
+        CurrentState = State.Hidden;
+        Debug.Log("ESCONDIDO");
+
+    }
+
 
 }
