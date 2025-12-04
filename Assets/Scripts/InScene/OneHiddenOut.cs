@@ -17,20 +17,20 @@ public class OneHiddenOut : BaseEscondite, IAction
 
     public void InAccion() //Animacion Mueble -> Animacion Player
     {
-        if(playerWalking && playernear)
-        {
-            if (!playerIN)
-            {
-                //playerWalking.PreHiddenAnimation();
-                playerIN = true;
-            }
-            else
-            {
+        //if(playerWalking && playernear)
+        //{
+        //    if (!playerIN)
+        //    {
+        //        //playerWalking.PreHiddenAnimation();
+        //        playerIN = true;
+        //    }
+        //    else
+        //    {
 
-                playerIN = false;
-            }
+        //        playerIN = false;
+        //    }
 
-        }
+        //}
 
 
         ClosedAnimation();
