@@ -14,8 +14,6 @@ public class PlayerWalking : CharacterHuman
     protected Vector2 TiltOrientacion = Vector2.zero;
 
 
-    private Animator _anim;
-
 
     protected override void Awake()
     {
@@ -27,7 +25,6 @@ public class PlayerWalking : CharacterHuman
         }
         MyCamera = HolderTransform.GetComponentInChildren<ControllerCamera>();
 
-        _anim = GetComponent<Animator>();
     }
 
 
@@ -96,7 +93,7 @@ public class PlayerWalking : CharacterHuman
                     if (CurrentMueble != null)
                     {
                         transform.position = OldPosition;
-                        //CurrentMueble.ResetRotation();
+                        CurrentMueble.ResetRotation();
                         CurrentMueble = null;
                     }
 
@@ -126,8 +123,8 @@ public class PlayerWalking : CharacterHuman
 
                     if (CurrentMueble != null)
                     {
-                        //CurrentMueble.RotOutHidden(look); //roto al pivote para tener un lugar para salir del escondite
-                        //OldPosition = CurrentMueble.OutHidden(); //mientras estoy escondido, actualizo el vector3 de salida
+                        CurrentMueble.RotOutHidden(look); //roto al pivote para tener un lugar para salir del escondite
+                        OldPosition = CurrentMueble.OutHidden(); //mientras estoy escondido, actualizo el vector3 de salida
                     }
 
                     goto case State.CrouchTilt;
@@ -162,35 +159,5 @@ public class PlayerWalking : CharacterHuman
         transform.localScale = IsCrouch ? new Vector3(0.2f, 0.2f, 0.2f) : Vector3.one; //reproducira una animacion para que se agache
     }
 
-
-    //Animaciones
-
-
-    public override void PreHiddenAnimation()//animacion play, despues llama a la funcion evento "InHidden"
-    {
-        base.PreHiddenAnimation();
-        _anim.SetTrigger("DoHidden");
-
-    }
-
-
-    public override void InHidden()
-    {
-        base.InHidden();
-        _anim.ResetTrigger("DoHidden");
-
-    }
-
-
-    private void OnAnimatorMove()
-    {
-        if (CurrentState == State.PreHidden)
-        {
-
-            transform.position += _anim.deltaPosition;
-            transform.rotation *= _anim.deltaRotation;
-
-        }
-    }
 
 }

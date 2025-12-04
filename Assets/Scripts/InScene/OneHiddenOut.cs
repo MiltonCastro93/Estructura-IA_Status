@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
+public class OneHiddenOut : BaseEscondite, IAction
 {
 
 
@@ -21,7 +21,7 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
         {
             if (!playerIN)
             {
-                playerWalking.PreHiddenAnimation();
+                //playerWalking.PreHiddenAnimation();
                 playerIN = true;
             }
             else

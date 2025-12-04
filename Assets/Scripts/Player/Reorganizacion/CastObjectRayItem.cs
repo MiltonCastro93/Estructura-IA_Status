@@ -26,12 +26,6 @@ public class CastObjectRayItem : MonoBehaviour
 
                 action.Ejecuted();
 
-                modeHidden = hit.collider.GetComponent<IModeHidden>();
-
-                positionHidden = modeHidden.PosHidden(); //Paso el vector para esconderse
-                rotationHidden = modeHidden.PosHiddenRotation(); //Paso el Quaternion
-                outHidden = modeHidden.OutHidden(); //el punto de salida
-
             }
             else
             {
@@ -40,21 +34,21 @@ public class CastObjectRayItem : MonoBehaviour
 
             //IModeHidden modeHidden = hit.collider.GetComponent<IModeHidden>();
 
-            //modeHidden = hit.collider.GetComponent<IModeHidden>();
+            modeHidden = hit.collider.GetComponent<IModeHidden>();
 
-            //if (modeHidden != null)
-            //{
+            if (modeHidden != null)
+            {
 
-            //    positionHidden = modeHidden.PosHidden(); //Paso el vector para esconderse
-            //    rotationHidden = modeHidden.PosHiddenRotation(); //Paso el Quaternion
-            //    outHidden = modeHidden.OutHidden();
+                positionHidden = modeHidden.PosHidden(); //Paso el vector para esconderse
+                rotationHidden = modeHidden.PosHiddenRotation(); //Paso el Quaternion
+                outHidden = modeHidden.OutHidden();
 
-            //    return true;
-            //}
-            //else
-            //{
-            //    Debug.Log("No posee logica");
-            //}
+                return true;
+            }
+            else
+            {
+                Debug.Log("No posee logica");
+            }
 
 
             Debug.Log($"No es un Mueble, es un {hit.collider.transform.gameObject.name}");
@@ -66,6 +60,6 @@ public class CastObjectRayItem : MonoBehaviour
     public Vector3 ModeHiddent() => positionHidden;
     public Quaternion RotModeHidden() => rotationHidden;
     public Vector3 ModoOutHidde() => outHidden; //Salida
-    public IModeHidden MuebleCurrent() => modeHidden; //con esto llamare a la Animacion de apertura asi el Jugador puede salir
+    public IModeHidden MuebleCurrent() => modeHidden; //con esto podre rotar la camara y salir en diferentes angulos
 
 }

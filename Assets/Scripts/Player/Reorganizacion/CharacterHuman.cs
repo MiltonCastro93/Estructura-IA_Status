@@ -14,7 +14,7 @@ public abstract class CharacterHuman : CharacterInput
     protected bool IsCrouch = false;
 
     [SerializeField] protected CastObjectRayItem rayItem;
-    protected IAction CurrentMueble;
+    protected IModeHidden CurrentMueble;
 
     [SerializeField] protected RayHeightPlayer PiesAltura;
 
@@ -36,15 +36,15 @@ public abstract class CharacterHuman : CharacterInput
 
     protected virtual void LateUpdate()
     {
-        //if (CurrentState == State.PreHidden)
-        //{
-        //    CurrentState = State.Hidden;
-        //    //CurrentMueble = rayItem.MuebleCurrent();
+        if (CurrentState == State.PreHidden)
+        {
+            CurrentState = State.Hidden;
+            CurrentMueble = rayItem.MuebleCurrent();
 
-        //    //_cc.transform.position = rayItem.ModeHiddent();
-        //    //_cc.transform.rotation = rayItem.RotModeHidden();
-        //    return;
-        //}
+            _cc.transform.position = rayItem.ModeHiddent();
+            _cc.transform.rotation = rayItem.RotModeHidden();
+            return;
+        }
 
         if (CurrentState == State.OutHidden)
         {
@@ -249,11 +249,11 @@ public abstract class CharacterHuman : CharacterInput
         {
             if (rayItem.RayFire())
             {
-                //if(CurrentState != State.Hidden)
-                //{
-                //    CurrentState = State.PreHidden;
-                //    return;
-                //}
+                if (CurrentState != State.Hidden)
+                {
+                    CurrentState = State.PreHidden;
+                    return;
+                }
 
             }
 
@@ -261,36 +261,11 @@ public abstract class CharacterHuman : CharacterInput
 
         if (CurrentState == State.Hidden)//aplicar animacion
         {
-            CurrentMueble.Ejecuted();
-
-            //CurrentState = State.OutHidden;
+            CurrentState = State.OutHidden;
             return;
         }
 
     }
 
-
-    public virtual void PreHiddenAnimation()
-    {
-        _cc.enabled = false;
-        CurrentState = State.PreHidden;
-
-
-    }
-
-    public virtual void InHidden()
-    {
-        CurrentState = State.Hidden;
-
-        _cc.enabled = true;
-        _cc.transform.position = rayItem.ModeHiddent();
-        _cc.transform.rotation = rayItem.RotModeHidden();
-
-    }
-
-    public virtual void OutHidden() {
-        CurrentState = State.OutHidden;
-
-    }
 
 }
