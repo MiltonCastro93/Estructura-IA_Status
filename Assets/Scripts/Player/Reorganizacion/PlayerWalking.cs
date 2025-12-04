@@ -39,14 +39,15 @@ public class PlayerWalking : CharacterHuman
 
         if (CurrentState == State.Hidden)
         {
-            _anim.applyRootMotion = true;
             return;
         }
-        _anim.applyRootMotion = false;
 
+        if (_cc.enabled)
+        {
+            Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
+            PlayerMove(new Vector3(move.x, 0, move.y), gravity);
+        }
 
-        Vector2 move = inputs.Player.Move.ReadValue<Vector2>();
-        PlayerMove(new Vector3(move.x, 0, move.y), gravity);
     }
 
 
@@ -95,7 +96,7 @@ public class PlayerWalking : CharacterHuman
                     if (CurrentMueble != null)
                     {
                         transform.position = OldPosition;
-                        CurrentMueble.ResetRotation();
+                        //CurrentMueble.ResetRotation();
                         CurrentMueble = null;
                     }
 
@@ -162,10 +163,8 @@ public class PlayerWalking : CharacterHuman
     }
 
 
+    //Animaciones
 
-    /// <summary>
-    /// ////ANimaciones
-    /// </summary>
 
     public override void PreHiddenAnimation()//animacion play, despues llama a la funcion evento "InHidden"
     {
@@ -185,11 +184,12 @@ public class PlayerWalking : CharacterHuman
 
     private void OnAnimatorMove()
     {
-        if (_cc != null && CurrentState == State.PreHidden)
+        if (CurrentState == State.PreHidden)
         {
-            Vector3 delta = _anim.deltaPosition;
-            _cc.Move(delta);
-            _cc.transform.rotation *= _anim.deltaRotation;
+
+            transform.position += _anim.deltaPosition;
+            transform.rotation *= _anim.deltaRotation;
+
         }
     }
 

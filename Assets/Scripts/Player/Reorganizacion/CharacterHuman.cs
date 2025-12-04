@@ -14,7 +14,7 @@ public abstract class CharacterHuman : CharacterInput
     protected bool IsCrouch = false;
 
     [SerializeField] protected CastObjectRayItem rayItem;
-    protected IModeHidden CurrentMueble;
+    protected IAction CurrentMueble;
 
     [SerializeField] protected RayHeightPlayer PiesAltura;
 
@@ -261,7 +261,9 @@ public abstract class CharacterHuman : CharacterInput
 
         if (CurrentState == State.Hidden)//aplicar animacion
         {
-            CurrentState = State.OutHidden;
+            CurrentMueble.Ejecuted();
+
+            //CurrentState = State.OutHidden;
             return;
         }
 
@@ -270,8 +272,8 @@ public abstract class CharacterHuman : CharacterInput
 
     public virtual void PreHiddenAnimation()
     {
+        _cc.enabled = false;
         CurrentState = State.PreHidden;
-        //dame los datos de pos, y su rot
 
 
     }
@@ -279,9 +281,16 @@ public abstract class CharacterHuman : CharacterInput
     public virtual void InHidden()
     {
         CurrentState = State.Hidden;
-        Debug.Log("ESCONDIDO");
+
+        _cc.enabled = true;
+        _cc.transform.position = rayItem.ModeHiddent();
+        _cc.transform.rotation = rayItem.RotModeHidden();
 
     }
 
+    public virtual void OutHidden() {
+        CurrentState = State.OutHidden;
+
+    }
 
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public abstract class BaseEscondite : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public abstract class BaseEscondite : MonoBehaviour
 
     protected bool playernear = false;
     [SerializeField] protected PlayerWalking playerWalking;
+
+    protected bool playerIN = false;
 
     private void Awake()
     {

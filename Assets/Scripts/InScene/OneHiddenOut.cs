@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
 {
-    
 
 
-
-
+    private void ClosedAnimation()
+    {
+        anim.SetBool("Open", false);
+    }
 
     public void Ejecuted() //el RayCast Ejecutara la animacion
     {
@@ -18,29 +19,26 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
     {
         if(playerWalking && playernear)
         {
-            playerWalking.PreHiddenAnimation();
+            if (!playerIN)
+            {
+                playerWalking.PreHiddenAnimation();
+                playerIN = true;
+            }
+            else
+            {
+
+                playerIN = false;
+            }
+
         }
 
+
+        ClosedAnimation();
     }
 
-    public Vector3 OutHidden() => REFouthidden.position;
-    public Vector3 PosHidden() => REFposthidden.position;
 
-
-
-    public Quaternion PosHiddenRotation()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void ResetRotation()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void RotOutHidden(Vector2 valueX)
-    {
-        throw new System.NotImplementedException();
-    }
+    public Vector3 OutHidden() => REFouthidden.position; //Posicion pre establecida para salir
+    public Vector3 PosHidden() => REFposthidden.position; //Posicion pre establecida para esconderse
+    public Quaternion PosHiddenRotation() => REFouthidden.rotation; //Rotacion de personaje segun el mueble
 
 }

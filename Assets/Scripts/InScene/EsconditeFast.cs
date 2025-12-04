@@ -1,7 +1,7 @@
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class EsconditeFast : BaseEscondite, IModeHidden
+public class EsconditeFast : BaseEscondite, IModeHidden, ISpecialHidden
 {
     float currentValue = 0f;
 

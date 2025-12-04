@@ -26,6 +26,12 @@ public class CastObjectRayItem : MonoBehaviour
 
                 action.Ejecuted();
 
+                modeHidden = hit.collider.GetComponent<IModeHidden>();
+
+                positionHidden = modeHidden.PosHidden(); //Paso el vector para esconderse
+                rotationHidden = modeHidden.PosHiddenRotation(); //Paso el Quaternion
+                outHidden = modeHidden.OutHidden(); //el punto de salida
+
             }
             else
             {
@@ -57,9 +63,9 @@ public class CastObjectRayItem : MonoBehaviour
         return false;
     }
 
-    //public Vector3 ModeHiddent() => positionHidden;
-    //public Quaternion RotModeHidden() => rotationHidden;
-    //public Vector3 ModoOutHidde() => outHidden; //Salida
-    //public IModeHidden MuebleCurrent() => modeHidden;
+    public Vector3 ModeHiddent() => positionHidden;
+    public Quaternion RotModeHidden() => rotationHidden;
+    public Vector3 ModoOutHidde() => outHidden; //Salida
+    public IModeHidden MuebleCurrent() => modeHidden; //con esto llamare a la Animacion de apertura asi el Jugador puede salir
 
 }
