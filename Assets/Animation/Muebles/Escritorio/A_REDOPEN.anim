@@ -178,7 +178,7 @@ AnimationClip:
   - time: 1
     functionName: InAccion
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 31ac83289cdb28749b72ca0fac51dc77, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

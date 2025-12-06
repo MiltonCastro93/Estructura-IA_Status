@@ -14,7 +14,6 @@ public class PlayerWalking : CharacterHuman
     protected Vector2 TiltOrientacion = Vector2.zero;
 
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -89,17 +88,6 @@ public class PlayerWalking : CharacterHuman
         switch (CurrentState)
         {
             case State.OutHidden:
-                {
-                    if (CurrentMueble != null)
-                    {
-                        transform.position = OldPosition;
-                        CurrentMueble.ResetRotation();
-                        CurrentMueble = null;
-                    }
-
-                    goto case State.Idle;
-                }
-
             case State.Idle:
             case State.Walking:
             case State.Running:
@@ -119,16 +107,6 @@ public class PlayerWalking : CharacterHuman
                     goto case State.Hidden;
                 }
             case State.Hidden:
-                {
-
-                    if (CurrentMueble != null)
-                    {
-                        CurrentMueble.RotOutHidden(look); //roto al pivote para tener un lugar para salir del escondite
-                        OldPosition = CurrentMueble.OutHidden(); //mientras estoy escondido, actualizo el vector3 de salida
-                    }
-
-                    goto case State.CrouchTilt;
-                }
             case State.CrouchTilt:
             case State.Tilt:
                 MyCamera.TiltCono(look, TiltOrientacion);
@@ -158,6 +136,5 @@ public class PlayerWalking : CharacterHuman
         base.OnCrouchPerformed(ctx);
         transform.localScale = IsCrouch ? new Vector3(0.2f, 0.2f, 0.2f) : Vector3.one; //reproducira una animacion para que se agache
     }
-
 
 }

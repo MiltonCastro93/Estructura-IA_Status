@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class CastObjectRayItem : MonoBehaviour
 
     Vector3 outHidden = Vector3.zero; //nuevo
 
-    IModeHidden modeHidden;
+    IAction accionMueble;
 
     public bool RayFire() //Logica Aplicada, es true si ofrece un metodo para esconderse
     {
@@ -26,32 +27,21 @@ public class CastObjectRayItem : MonoBehaviour
 
                 action.Ejecuted();
 
-            }
-            else
-            {
-                Debug.Log("No posee animaciones");
-            }
+                IModeHidden GetMueble = hit.collider.GetComponent<IModeHidden>();
 
-            //IModeHidden modeHidden = hit.collider.GetComponent<IModeHidden>();
+                if(GetMueble != null)
+                {
+                    accionMueble = action; //para obtener las dos acciones necesarias para Open() y Close()
 
-            modeHidden = hit.collider.GetComponent<IModeHidden>();
+                    positionHidden = GetMueble.PosHidden(); //Paso el vector para esconderse
+                    rotationHidden = GetMueble.PosHiddenRotation(); //Paso el Quaternion
+                    outHidden = GetMueble.PosOutHidden(); //Punto de salida
 
-            if (modeHidden != null)
-            {
+                    return true;
+                }
 
-                positionHidden = modeHidden.PosHidden(); //Paso el vector para esconderse
-                rotationHidden = modeHidden.PosHiddenRotation(); //Paso el Quaternion
-                outHidden = modeHidden.OutHidden();
-
-                return true;
-            }
-            else
-            {
-                Debug.Log("No posee logica");
             }
 
-
-            Debug.Log($"No es un Mueble, es un {hit.collider.transform.gameObject.name}");
         }
 
         return false;
@@ -59,7 +49,7 @@ public class CastObjectRayItem : MonoBehaviour
 
     public Vector3 ModeHiddent() => positionHidden;
     public Quaternion RotModeHidden() => rotationHidden;
-    public Vector3 ModoOutHidde() => outHidden; //Salida
-    public IModeHidden MuebleCurrent() => modeHidden; //con esto podre rotar la camara y salir en diferentes angulos
+    public Vector3 ModoOutHidden() => outHidden; //Salida
+    public IAction AccionMueble() => accionMueble;
 
 }

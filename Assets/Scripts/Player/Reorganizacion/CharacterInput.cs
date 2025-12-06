@@ -49,43 +49,42 @@ public abstract class CharacterInput : MonoBehaviour
     //Se hacen las Primeras instancias de los eventos por teclados
     protected virtual void OnCrouchPerformed(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Agachado");
+        //Debug.Log("Agachado");
     }
 
     protected virtual void OnFire(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Interactuar");
-
+        //Debug.Log("Interactuar");
     }
 
     protected virtual void OnTilts(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Start Inclinacion");
+        //Debug.Log("Start Inclinacion");
     }
     protected virtual void FinishTilts(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Dejo de Inclinar");
+        //Debug.Log("Dejo de Inclinar");
     }
 
     protected virtual void OnRun(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Corriendo");
+        //Debug.Log("Corriendo");
     }
 
     protected virtual void FinishRun(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Dejo de Correr");
+        //Debug.Log("Dejo de Correr");
     }
 
 
     protected virtual void OnWalking(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Empezo a Caminar");
+        //Debug.Log("Empezo a Caminar");
     }
 
     protected virtual void FinishWalking(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Dejo de Caminar");
+        //Debug.Log("Dejo de Caminar");
     }
 
 }

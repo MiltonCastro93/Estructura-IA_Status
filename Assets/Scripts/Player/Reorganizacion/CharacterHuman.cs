@@ -16,6 +16,10 @@ public abstract class CharacterHuman : CharacterInput
     [SerializeField] protected CastObjectRayItem rayItem;
     protected IModeHidden CurrentMueble;
 
+    //nuevo
+    protected IAction GetCurrentMueble; //Abrir y cerrar con el clic
+    protected Animator _anim;
+
     [SerializeField] protected RayHeightPlayer PiesAltura;
 
     protected Vector3 OldPosition = Vector3.zero;
@@ -25,6 +29,7 @@ public abstract class CharacterHuman : CharacterInput
     {
         base.Awake();
         _cc = GetComponent<CharacterController>();
+        _anim = GetComponent<Animator>();
 
         if (rayItem == null)
         {
@@ -32,33 +37,7 @@ public abstract class CharacterHuman : CharacterInput
             return;
         }
 
-    }
-
-    protected virtual void LateUpdate()
-    {
-        if (CurrentState == State.PreHidden)
-        {
-            CurrentState = State.Hidden;
-            CurrentMueble = rayItem.MuebleCurrent();
-
-            _cc.transform.position = rayItem.ModeHiddent();
-            _cc.transform.rotation = rayItem.RotModeHidden();
-            return;
-        }
-
-        if (CurrentState == State.OutHidden)
-        {
-            CurrentMueble = null;
-
-            if (!IsCrouch)
-            {
-                _cc.transform.position = new Vector3(OldPosition.x, 1.50f, OldPosition.z);
-            }
-
-            return;
-        }
-
-
+        
     }
 
 
@@ -249,23 +228,68 @@ public abstract class CharacterHuman : CharacterInput
         {
             if (rayItem.RayFire())
             {
-                if (CurrentState != State.Hidden)
-                {
-                    CurrentState = State.PreHidden;
-                    return;
-                }
-
+                GetCurrentMueble = rayItem.AccionMueble(); //Obtengo la interfaz del mueble, asi puedo abrir y cerrar
             }
 
         }
 
         if (CurrentState == State.Hidden)//aplicar animacion
         {
-            CurrentState = State.OutHidden;
+            GetCurrentMueble.Ejecuted();//Si estoy escondido, se Abre mueble
             return;
         }
 
     }
 
+    //Animar y desacoplar acciones
+    public virtual void PreAccion(string TriggerType) //Mueble (InAccion()) -> Personaje Cambia entre estados segundo la accion actual -> Proxima
+    {
+        if(CurrentState == State.Hidden)
+        {
+            CurrentState = State.OutHidden;
+        }
+        else
+        {
+            CurrentState = State.PreHidden;
+        }
+
+        _anim.SetTrigger(TriggerType);
+        _cc.enabled = false;
+    }
+
+    protected virtual void OnHiddenAnimation(string TriggerType) //Personaje -> Mueble "Cambia a modo hidden y reproducir la animacion del cierre del mueble"
+    {
+        CurrentState = State.Hidden;
+        _anim.ResetTrigger(TriggerType);
+
+        GetCurrentMueble.Reverses();
+
+        transform.position = rayItem.ModeHiddent();
+        transform.rotation = rayItem.RotModeHidden();
+
+        _cc.enabled = true;
+    }
+
+    protected virtual void OutHiddenAnimation(string TriggerType) //Personaje ->Mueble "Cambia a modo idle y reproducir la animacion del Cierre del mueble"
+    {
+        CurrentMueble = null;
+        _anim.ResetTrigger(TriggerType);
+        GetCurrentMueble.Reverses();
+
+        transform.position = rayItem.ModoOutHidden(); //posicion de salida del escondite
+        _cc.enabled = true;
+
+        CurrentState = State.Idle;
+    }
+
+    private void OnAnimatorMove()
+    {
+        if(!_cc.enabled)
+        {
+            transform.position += _anim.deltaPosition;
+            transform.rotation *= _anim.deltaRotation;
+        }
+
+    }
 
 }

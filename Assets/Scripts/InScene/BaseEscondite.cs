@@ -3,21 +3,37 @@ using UnityEngine;
 public abstract class BaseEscondite : MonoBehaviour
 {
     protected Animator anim;
-
-    protected Quaternion baseRotation;
     protected Vector3 InHidden = Vector3.zero;
 
     [SerializeField] protected Transform REFposthidden, REFouthidden;
-    [SerializeField] protected float RotMax = 45f;
 
+
+    //Aplicar logica de animacion
+    [SerializeField] protected string TypeTriggerPrehidden = "DownHidden";
+    [SerializeField] protected string TypeTriggerOuthidden = "OutDownHidden";
+    [SerializeField] protected PlayerWalking player;
     protected bool playerIN = false;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         anim = GetComponent<Animator>();
         InHidden = REFposthidden.position;
+    }
 
-        baseRotation = REFposthidden.localRotation;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            player = other.GetComponent<PlayerWalking>();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(player != null)
+        {
+            player = null;
+        }
     }
 
 

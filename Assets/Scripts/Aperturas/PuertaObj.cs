@@ -17,4 +17,8 @@ public class PuertaObj : MonoBehaviour, IAction
 
     }
 
+    public void Reverses()//posiblemente no se use
+    {
+
+    }
 }
