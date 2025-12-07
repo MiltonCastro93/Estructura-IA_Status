@@ -5,10 +5,10 @@ using UnityEngine;
 public class CastObjectRayItem : MonoBehaviour
 {
     [SerializeField] float distanceFire = 3f;
-    Vector3 positionHidden = Vector3.zero;
-    Quaternion rotationHidden = Quaternion.identity;
 
-    Vector3 outHidden = Vector3.zero; //nuevo
+    Vector3 positionHidden = Vector3.zero; //Posicion para esconderse
+    Quaternion rotationHidden = Quaternion.identity; //Rotacion para esconderse
+    Vector3 outHidden = Vector3.zero; //Posicion para salir del escondite
 
     IAction accionMueble;
 

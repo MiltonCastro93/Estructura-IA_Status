@@ -7,20 +7,17 @@ using UnityEngine.UIElements;
 public abstract class CharacterHuman : CharacterInput
 {
     protected CharacterController _cc;
+    protected Animator _anim;
+
     protected enum State { Idle, Walking, Running, Crouch, CrouchWalking, CrouchTilt, Tilt, TiltWalking, TiltRunning, PreHidden, Hidden, OutHidden }
     [SerializeField] protected State CurrentState;
 
-    protected bool IsRunning = false;
+    protected bool IsRunning = false;//Para controlar si esta corriendo esto funciona para detecter si estoy en Running y TiltRunning
     protected bool IsCrouch = false;
 
-    [SerializeField] protected CastObjectRayItem rayItem;
-    protected IModeHidden CurrentMueble;
-
-    //nuevo
-    protected IAction GetCurrentMueble; //Abrir y cerrar con el clic
-    protected Animator _anim;
-
     [SerializeField] protected RayHeightPlayer PiesAltura;
+    [SerializeField] protected CastObjectRayItem rayItem;//Lee los objetos interactuables con clic
+    protected IAction GetCurrentMueble; 
 
     protected Vector3 OldPosition = Vector3.zero;
 
@@ -40,14 +37,13 @@ public abstract class CharacterHuman : CharacterInput
         
     }
 
-
     //Eventos por Touchs
-    protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
+    protected override void OnCrouch(InputAction.CallbackContext ctx)
     {
         
         if (!PiesAltura.GetForcedCrouch() && CurrentState != State.Hidden)
         {
-            base.OnCrouchPerformed(ctx);
+            base.OnCrouch(ctx);
             IsCrouch = !IsCrouch;
 
             switch (CurrentState)
@@ -70,7 +66,6 @@ public abstract class CharacterHuman : CharacterInput
                 case State.CrouchTilt:
                     CurrentState = State.Tilt;
                     break;
-
 
             }
 
@@ -272,7 +267,6 @@ public abstract class CharacterHuman : CharacterInput
 
     protected virtual void OutHiddenAnimation(string TriggerType) //Personaje ->Mueble "Cambia a modo idle y reproducir la animacion del Cierre del mueble"
     {
-        CurrentMueble = null;
         _anim.ResetTrigger(TriggerType);
         GetCurrentMueble.Reverses();
 

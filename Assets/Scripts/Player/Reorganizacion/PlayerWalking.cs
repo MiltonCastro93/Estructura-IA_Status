@@ -131,10 +131,11 @@ public class PlayerWalking : CharacterHuman
         TiltOrientacion = Vector2.zero;
     }
 
-    protected override void OnCrouchPerformed(InputAction.CallbackContext ctx)
+    protected override void OnCrouch(InputAction.CallbackContext ctx)
     {
-        base.OnCrouchPerformed(ctx);
-        transform.localScale = IsCrouch ? new Vector3(0.2f, 0.2f, 0.2f) : Vector3.one; //reproducira una animacion para que se agache
+        base.OnCrouch(ctx);
+        transform.localScale = IsCrouch ? new Vector3(0.5f, 0.5f, 0.5f) : Vector3.one;
+        //Se aplicara una animacion de agacharse, pero el Cc debera tener la escala reducida
     }
 
 }

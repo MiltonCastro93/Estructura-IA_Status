@@ -1,36 +1,32 @@
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class TwoHiddenOut : BaseEscondite, IAction,IModeHidden, ISpecialHidden
+public class TwoHiddenOut : OneHiddenOut, ISpecialHidden
 {
-
-    protected Quaternion baseRotation;
+    float currentValue = 0f;
+    [SerializeField] private Transform REFLeftOuthidden;
 
     [SerializeField] protected float RotMax = 45f;
-    float currentValue = 0f;
+    protected Quaternion baseRotation;
+
 
     protected override void Awake()
     {
         base.Awake();
 
-        baseRotation = REFposthidden.localRotation;
+        baseRotation = RefPostHidden.localRotation;
     }
 
-    public void Ejecuted()
+    public override Vector3 PosOutHidden()
     {
-        throw new System.NotImplementedException();
+        if(currentValue > 0f)
+        {
+            Debug.Log("Izquierda");
+            return REFLeftOuthidden.position;
+        }
+        Debug.Log("Derecha");
+        return RefOutHidden.position;
     }
-
-    public void Reverses()
-    {
-        throw new System.NotImplementedException();
-    }
-
-
-    public Vector3 PosOutHidden() => REFouthidden.position;
-    public Vector3 PosHidden() => REFposthidden.position;
-    public Quaternion PosHiddenRotation() => REFouthidden.rotation;
-
 
 
     //otra interface, para que me permita rotar la camara mientras estoy escondido en un angulo maximo
@@ -49,7 +45,7 @@ public class TwoHiddenOut : BaseEscondite, IAction,IModeHidden, ISpecialHidden
     public void ResetRotation()
     {
         currentValue = 0;
-        REFposthidden.localRotation = baseRotation;
+        RefPostHidden.localRotation = baseRotation;
     }
 
 

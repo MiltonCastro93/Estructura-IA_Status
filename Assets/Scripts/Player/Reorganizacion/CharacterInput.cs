@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 public abstract class CharacterInput : MonoBehaviour
 {
     protected InputSystem_Actions inputs;
-
-
     protected virtual void Awake()
     {
         inputs = new InputSystem_Actions();
@@ -16,7 +14,7 @@ public abstract class CharacterInput : MonoBehaviour
     protected virtual void OnEnable()
     {
         inputs.Enable();
-        inputs.Player.Crouch.performed += OnCrouchPerformed;
+        inputs.Player.Crouch.performed += OnCrouch;
         inputs.Player.Attack.performed += OnFire;
 
         inputs.Player.Sprint.performed += OnRun;
@@ -31,7 +29,7 @@ public abstract class CharacterInput : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        inputs.Player.Crouch.performed -= OnCrouchPerformed;
+        inputs.Player.Crouch.performed -= OnCrouch;
         inputs.Player.Attack.performed -= OnFire;
 
         inputs.Player.Sprint.performed -= OnRun;
@@ -47,44 +45,13 @@ public abstract class CharacterInput : MonoBehaviour
     }
 
     //Se hacen las Primeras instancias de los eventos por teclados
-    protected virtual void OnCrouchPerformed(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Agachado");
-    }
-
-    protected virtual void OnFire(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Interactuar");
-    }
-
-    protected virtual void OnTilts(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Start Inclinacion");
-    }
-    protected virtual void FinishTilts(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Dejo de Inclinar");
-    }
-
-    protected virtual void OnRun(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Corriendo");
-    }
-
-    protected virtual void FinishRun(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Dejo de Correr");
-    }
-
-
-    protected virtual void OnWalking(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Empezo a Caminar");
-    }
-
-    protected virtual void FinishWalking(InputAction.CallbackContext ctx)
-    {
-        //Debug.Log("Dejo de Caminar");
-    }
+    protected virtual void OnCrouch(InputAction.CallbackContext ctx){}//Agacharse
+    protected virtual void OnFire(InputAction.CallbackContext ctx){}//Interactuar
+    protected virtual void OnTilts(InputAction.CallbackContext ctx){}//Inclinarse
+    protected virtual void FinishTilts(InputAction.CallbackContext ctx){}//Termina de Inclinarse
+    protected virtual void OnRun(InputAction.CallbackContext ctx){}//Correr
+    protected virtual void FinishRun(InputAction.CallbackContext ctx){}//Termina de Correr
+    protected virtual void OnWalking(InputAction.CallbackContext ctx){}//Caminar
+    protected virtual void FinishWalking(InputAction.CallbackContext ctx){}//Termina de Caminar
 
 }

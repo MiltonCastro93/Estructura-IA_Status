@@ -19,8 +19,7 @@ public class RayHeightPlayer : MonoBehaviour
                 if (ActivateComprobation)
                 {
                     if (hit.distance <= 1f)
-                    {
-                        Debug.Log("Aun estas dentro");
+                    {//Sigue sin poder pararse
                         return;
                     }
                     ActivateComprobation = false;
@@ -30,8 +29,7 @@ public class RayHeightPlayer : MonoBehaviour
             }
             else
             {
-                ForcedCrouch = false;
-                Debug.Log("Te podes parar, y saltar");
+                ForcedCrouch = false; //Te podes parar, y saltar
             }
 
 

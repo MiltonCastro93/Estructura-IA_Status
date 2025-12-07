@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
 {
+    protected Animator anim;
 
-    public void Ejecuted() //el RayCast Ejecutara la animacion
+    protected override void Awake()
     {
-        anim.SetBool("Open", true);
-        Debug.Log("Abriendo Mueble");
+        base.Awake();
+        anim = GetComponent<Animator>();
     }
 
     public void InAccion() //Animacion Mueble -> Animacion Player
@@ -15,13 +16,11 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
         {
             if (!playerIN)
             {
-                Debug.Log("Player Dentro del Mueble");
                 player.GetComponent<PlayerWalking>().PreAccion(TypeTriggerPrehidden);
                 playerIN = true;
             }
             else
             {
-                Debug.Log("Player Fuera del Mueble");
                 player.GetComponent<PlayerWalking>().PreAccion(TypeTriggerOuthidden);
                 playerIN = false;
             }
@@ -30,15 +29,22 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
 
     }
 
+    //Implementacion de IAction
+    public void Ejecuted() //el RayCast Ejecutara la animacion
+    {
+        if(player == null) return;
+        anim.SetBool("Open", true);
+    }
+
+    //Implementacion de IAction
     public void Reverses() //para que sea llamado para cerrar la puerta
     {
         anim.SetBool("Open", false);
-        Debug.Log("Cerrando Mueble");
     }
 
-
-    public Vector3 PosHidden() => REFposthidden.position; //Posicion pre establecida para esconderse
-    public Quaternion PosHiddenRotation() => REFouthidden.rotation; //Rotacion de personaje segun el mueble
-    public Vector3 PosOutHidden() => REFouthidden.position; //Posicion pre establecida para salir
+    //Implementacion de IModeHidden
+    public Vector3 PosHidden() => RefPostHidden.position; //Posicion pre establecida para esconderse
+    public Quaternion PosHiddenRotation() => RefOutHidden.rotation; //Rotacion de personaje segun el mueble
+    public virtual Vector3 PosOutHidden() => RefOutHidden.position; //Posicion pre establecida para salir
 
 }

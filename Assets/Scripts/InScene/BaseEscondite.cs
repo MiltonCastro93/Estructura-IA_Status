@@ -2,22 +2,21 @@ using UnityEngine;
 
 public abstract class BaseEscondite : MonoBehaviour
 {
-    protected Animator anim;
+
     protected Vector3 InHidden = Vector3.zero;
 
-    [SerializeField] protected Transform REFposthidden, REFouthidden;
+    [SerializeField] protected Transform RefPostHidden, RefOutHidden; //Entrada y Salida del escondite
 
 
     //Aplicar logica de animacion
-    [SerializeField] protected string TypeTriggerPrehidden = "DownHidden";
-    [SerializeField] protected string TypeTriggerOuthidden = "OutDownHidden";
+    [SerializeField] protected string TypeTriggerPrehidden = "DownHidden"; //Trigger para la animacion del Player (Entrada)
+    [SerializeField] protected string TypeTriggerOuthidden = "OutDownHidden"; //Trigger para la animacion del Player (Salida)
     [SerializeField] protected PlayerWalking player;
     protected bool playerIN = false;
 
     protected virtual void Awake()
     {
-        anim = GetComponent<Animator>();
-        InHidden = REFposthidden.position;
+        InHidden = RefPostHidden.position;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,18 +35,16 @@ public abstract class BaseEscondite : MonoBehaviour
         }
     }
 
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(InHidden, new Vector3(1f, 2f, 1f));
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(InHidden, InHidden + (REFposthidden.forward * 2f));
+        Gizmos.DrawLine(InHidden, InHidden + (RefPostHidden.forward * 2f));
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(REFouthidden.position, new Vector3(1f, 2f, 1f));
-
+        Gizmos.DrawWireCube(RefOutHidden.position, new Vector3(1f, 2f, 1f));
 
     }
 
