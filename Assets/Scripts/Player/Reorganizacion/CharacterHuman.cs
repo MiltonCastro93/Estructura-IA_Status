@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -276,6 +277,8 @@ public abstract class CharacterHuman : CharacterInput
         CurrentState = State.Idle;
     }
 
+
+
     private void OnAnimatorMove()
     {
         if(!_cc.enabled)
@@ -285,5 +288,6 @@ public abstract class CharacterHuman : CharacterInput
         }
 
     }
+
 
 }
