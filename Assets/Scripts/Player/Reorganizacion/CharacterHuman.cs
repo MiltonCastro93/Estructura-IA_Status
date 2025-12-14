@@ -8,10 +8,12 @@ using UnityEngine.UIElements;
 public abstract class CharacterHuman : CharacterInput
 {
     protected CharacterController _cc;
-    protected Animator _anim;
 
-    protected enum State { Idle, Walking, Running, Crouch, CrouchWalking, CrouchTilt, Tilt, TiltWalking, TiltRunning, PreHidden, Hidden, OutHidden }
-    [SerializeField] protected State CurrentState;
+    protected enum MainState { Idle, Walking, Running, Crouch, CrouchWalking, CrouchTilt, Tilt, TiltWalking, TiltRunning, Action }
+    [SerializeField] protected MainState CurrentState;
+
+    protected enum SubState { None, PreHidden, Hidden, OutHidden }
+    [SerializeField] protected SubState CurrentSubState = SubState.None;
 
     protected bool IsRunning = false;//Para controlar si esta corriendo esto funciona para detecter si estoy en Running y TiltRunning
     protected bool IsCrouch = false;
@@ -27,45 +29,36 @@ public abstract class CharacterHuman : CharacterInput
     {
         base.Awake();
         _cc = GetComponent<CharacterController>();
-        _anim = GetComponent<Animator>();
 
-        if (rayItem == null)
-        {
-            Debug.LogError("Este GO No Posee la logica de deteccion");
-            return;
-        }
-
-        
     }
 
     //Eventos por Touchs
     protected override void OnCrouch(InputAction.CallbackContext ctx)
-    {
-        
-        if (!PiesAltura.GetForcedCrouch() && CurrentState != State.Hidden)
+    {        
+        if (!PiesAltura.GetForcedCrouch() && CurrentState != MainState.Action)
         {
             base.OnCrouch(ctx);
             IsCrouch = !IsCrouch;
 
             switch (CurrentState)
             {
-                case State.Idle:
-                    CurrentState = State.Crouch;
+                case MainState.Idle:
+                    CurrentState = MainState.Crouch;
                     break;
-                case State.Walking:
-                    CurrentState = State.CrouchWalking;
+                case MainState.Walking:
+                    CurrentState = MainState.CrouchWalking;
                     break;
-                case State.Crouch:
-                    CurrentState = State.Idle;
+                case MainState.Crouch:
+                    CurrentState = MainState.Idle;
                     break;
-                case State.CrouchWalking:
-                    CurrentState = State.Walking;
+                case MainState.CrouchWalking:
+                    CurrentState = MainState.Walking;
                     break;
-                case State.Tilt:
-                    CurrentState = State.CrouchTilt;
+                case MainState.Tilt:
+                    CurrentState = MainState.CrouchTilt;
                     break;
-                case State.CrouchTilt:
-                    CurrentState = State.Tilt;
+                case MainState.CrouchTilt:
+                    CurrentState = MainState.Tilt;
                     break;
 
             }
@@ -78,7 +71,7 @@ public abstract class CharacterHuman : CharacterInput
 
 
         //Si estoy Corriendo se deslice
-        if (CurrentState == State.Running)
+        if (CurrentState == MainState.Running)
         {
             Debug.Log("Deslizando, termina en Crouch");
         }
@@ -92,17 +85,17 @@ public abstract class CharacterHuman : CharacterInput
 
         switch (CurrentState)
         {
-            case State.Idle:
-                CurrentState = State.Tilt;
+            case MainState.Idle:
+                CurrentState = MainState.Tilt;
                 break;
-            case State.Walking:
-                CurrentState = State.TiltWalking;
+            case MainState.Walking:
+                CurrentState = MainState.TiltWalking;
                 break;
-            case State.Running:
-                CurrentState = State.TiltRunning;
+            case MainState.Running:
+                CurrentState = MainState.TiltRunning;
                 break;
-            case State.Crouch:
-                CurrentState = State.CrouchTilt;
+            case MainState.Crouch:
+                CurrentState = MainState.CrouchTilt;
                 break;
 
         }
@@ -115,17 +108,17 @@ public abstract class CharacterHuman : CharacterInput
 
         switch (CurrentState)
         {
-            case State.Tilt:
-                CurrentState = State.Idle;
+            case MainState.Tilt:
+                CurrentState = MainState.Idle;
                 break;
-            case State.TiltWalking:
-                CurrentState = State.Walking;
+            case MainState.TiltWalking:
+                CurrentState = MainState.Walking;
                 break;
-            case State.TiltRunning:
-                CurrentState = State.Running;
+            case MainState.TiltRunning:
+                CurrentState = MainState.Running;
                 break;
-            case State.CrouchTilt:
-                CurrentState = State.Crouch;
+            case MainState.CrouchTilt:
+                CurrentState = MainState.Crouch;
                 break;
 
 
@@ -140,14 +133,14 @@ public abstract class CharacterHuman : CharacterInput
 
         switch (CurrentState)
         {
-            case State.Walking:
-                CurrentState = State.Running;
+            case MainState.Walking:
+                CurrentState = MainState.Running;
                 break;
-            case State.Tilt:
-                CurrentState = State.TiltRunning;
+            case MainState.Tilt:
+                CurrentState = MainState.TiltRunning;
                 break;
-            case State.TiltWalking:
-                CurrentState = State.TiltRunning;
+            case MainState.TiltWalking:
+                CurrentState = MainState.TiltRunning;
                 break;
 
         }
@@ -161,11 +154,11 @@ public abstract class CharacterHuman : CharacterInput
 
         switch (CurrentState)
         {
-            case State.Running:
-                CurrentState = State.Walking;
+            case MainState.Running:
+                CurrentState = MainState.Walking;
                 break;
-            case State.TiltRunning:
-                CurrentState = State.TiltWalking;
+            case MainState.TiltRunning:
+                CurrentState = MainState.TiltWalking;
                 break;
 
         }
@@ -180,17 +173,20 @@ public abstract class CharacterHuman : CharacterInput
 
         switch (CurrentState)
         {
-            case State.Idle:
-                CurrentState = State.Walking;
+            case MainState.Idle:
+                CurrentState = MainState.Walking;
                 break;
-            case State.Crouch:
-                CurrentState = State.CrouchWalking;
+            case MainState.Crouch:
+                CurrentState = MainState.CrouchWalking;
                 break;
-            case State.Tilt:
-                CurrentState = State.TiltWalking;
+            case MainState.Tilt:
+                CurrentState = MainState.TiltWalking;
                 break;
-            case State.OutHidden:
-                CurrentState = State.Walking;
+            case MainState.Action:
+                if(CurrentSubState == SubState.None)
+                {
+                    CurrentState = MainState.Walking;
+                }
                 break;
         }
 
@@ -203,14 +199,14 @@ public abstract class CharacterHuman : CharacterInput
 
         switch (CurrentState)
         {
-            case State.Walking:
-                CurrentState = State.Idle;
+            case MainState.Walking:
+                CurrentState = MainState.Idle;
                 break;
-            case State.CrouchWalking:
-                CurrentState = State.Crouch;
+            case MainState.CrouchWalking:
+                CurrentState = MainState.Crouch;
                 break;
-            case State.TiltWalking:
-                CurrentState = State.Tilt;
+            case MainState.TiltWalking:
+                CurrentState = MainState.Tilt;
                 break;
 
         }
@@ -229,65 +225,12 @@ public abstract class CharacterHuman : CharacterInput
 
         }
 
-        if (CurrentState == State.Hidden)//aplicar animacion
+        if (CurrentState == MainState.Action)//aplicar animacion
         {
             GetCurrentMueble.Ejecuted();//Si estoy escondido, se Abre mueble
             return;
         }
 
     }
-
-    //Animar y desacoplar acciones
-    public virtual void PreAccion(string TriggerType) //Mueble (InAccion()) -> Personaje Cambia entre estados segundo la accion actual -> Proxima
-    {
-        if(CurrentState == State.Hidden)
-        {
-            CurrentState = State.OutHidden;
-        }
-        else
-        {
-            CurrentState = State.PreHidden;
-        }
-
-        _anim.SetTrigger(TriggerType);
-        _cc.enabled = false;
-    }
-
-    protected virtual void OnHiddenAnimation(string TriggerType) //Personaje -> Mueble "Cambia a modo hidden y reproducir la animacion del cierre del mueble"
-    {
-        CurrentState = State.Hidden;
-        _anim.ResetTrigger(TriggerType);
-
-        GetCurrentMueble.Reverses();
-
-        transform.position = rayItem.ModeHiddent();
-        transform.rotation = rayItem.RotModeHidden();
-
-        _cc.enabled = true;
-    }
-
-    protected virtual void OutHiddenAnimation(string TriggerType) //Personaje ->Mueble "Cambia a modo idle y reproducir la animacion del Cierre del mueble"
-    {
-        _anim.ResetTrigger(TriggerType);
-        GetCurrentMueble.Reverses();
-
-        transform.position = rayItem.ModoOutHidden(); //posicion de salida del escondite
-        _cc.enabled = true;
-
-        CurrentState = State.Idle;
-    }
-
-
-
-    private void OnAnimatorMove()
-    {
-        if(!_cc.enabled)
-        {
-            transform.position += _anim.deltaPosition;
-            transform.rotation *= _anim.deltaRotation;
-        }
-
-    }
-
 
 }

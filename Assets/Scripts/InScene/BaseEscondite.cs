@@ -14,6 +14,10 @@ public abstract class BaseEscondite : MonoBehaviour
     [SerializeField] protected PlayerWalking player;
     protected bool playerIN = false;
 
+    //Tipo de Escondite
+    protected enum TypeEscondite { Bajo, Medio, Alto}
+    [SerializeField] protected TypeEscondite typeEscondite;
+
     protected virtual void Awake()
     {
         InHidden = RefPostHidden.position;

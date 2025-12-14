@@ -16,12 +16,12 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
         {
             if (!playerIN)
             {
-                player.GetComponent<PlayerWalking>().PreAccion(TypeTriggerPrehidden);
+                player.GetComponent<AnimePlayer>().PreAccion(TypeTriggerPrehidden);
                 playerIN = true;
             }
             else
             {
-                player.GetComponent<PlayerWalking>().PreAccion(TypeTriggerOuthidden);
+                player.GetComponent<AnimePlayer>().PreAccion(TypeTriggerOuthidden);
                 playerIN = false;
             }
 

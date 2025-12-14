@@ -10,6 +10,9 @@ public abstract class CharacterInput : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
+    protected virtual void Update(){ }
+
+
     //Aniado nuevos eventos aqui!
     protected virtual void OnEnable()
     {

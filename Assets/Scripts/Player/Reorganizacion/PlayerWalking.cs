@@ -17,23 +17,19 @@ public class PlayerWalking : CharacterHuman
     protected override void Awake()
     {
         base.Awake();
-        if(HolderTransform.GetComponent<ControllerCamera>() == null)
-        {
-            Debug.LogError("Este GO No Posee el ControllerCamera");
-            return;
-        }
         MyCamera = HolderTransform.GetComponentInChildren<ControllerCamera>();
 
     }
 
 
-    protected void Update()
+    protected override void Update()
     {
+        base.Update();
         CheckStatus();
 
         speed = IsRunning ? speedRunning : speedWalking;
 
-        if (CurrentState == State.Hidden)
+        if (CurrentState == MainState.Action)
         {
             return;
         }
@@ -45,7 +41,6 @@ public class PlayerWalking : CharacterHuman
         }
 
     }
-
 
     //Metodo para mover al personaje, y tambien, aplico la gravedad
     void PlayerMove(Vector3 dir, float gravityMultiplier)
@@ -87,32 +82,37 @@ public class PlayerWalking : CharacterHuman
         Vector2 look = inputs.Player.Look.ReadValue<Vector2>();
         switch (CurrentState)
         {
-            case State.OutHidden:
-            case State.Idle:
-            case State.Walking:
-            case State.Running:
-            case State.Crouch:
-            case State.CrouchWalking:
+            case MainState.Action:
+                {
+                    if(CurrentSubState == SubState.PreHidden || CurrentSubState == SubState.Hidden)
+                    {
+                        IsCrouch = false;
+                        transform.localScale = Vector3.one;//reestablesco la scale del GO player. posiblemente lo saque
+                        goto case MainState.Tilt;
+                    }
+
+                    if (CurrentSubState != SubState.OutHidden)
+                        return;
+                    goto case MainState.Idle;
+                }
+            case MainState.Idle:
+            case MainState.Walking:
+            case MainState.Running:
+            case MainState.Crouch:
+            case MainState.CrouchWalking:
                 MyCamera.NonTilt(look, this.transform);
 
                 break;
-            case State.TiltWalking:
+            case MainState.TiltWalking:
                 MyCamera.TiltWalking(look, this.transform, TiltOrientacion);
 
                 break;
-            case State.PreHidden:
-                {
-                    IsCrouch = false;
-                    transform.localScale = Vector3.one; //reestablesco la scale del GO player. posiblemente lo saque
-                    goto case State.Hidden;
-                }
-            case State.Hidden:
-            case State.CrouchTilt:
-            case State.Tilt:
+            case MainState.CrouchTilt:
+            case MainState.Tilt:
                 MyCamera.TiltCono(look, TiltOrientacion);
 
                 break;
-            case State.TiltRunning:
+            case MainState.TiltRunning:
                 MyCamera.BackWardRun(TiltOrientacion);
 
                 break;
