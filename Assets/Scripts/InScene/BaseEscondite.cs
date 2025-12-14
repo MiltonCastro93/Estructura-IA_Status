@@ -9,8 +9,6 @@ public abstract class BaseEscondite : MonoBehaviour
 
 
     //Aplicar logica de animacion
-    [SerializeField] protected string TypeTriggerPrehidden = "DownHidden"; //Trigger para la animacion del Player (Entrada)
-    [SerializeField] protected string TypeTriggerOuthidden = "OutDownHidden"; //Trigger para la animacion del Player (Salida)
     [SerializeField] protected PlayerWalking player;
     protected bool playerIN = false;
 

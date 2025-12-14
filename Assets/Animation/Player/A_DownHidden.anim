@@ -436,8 +436,8 @@ AnimationClip:
   m_Events:
   - time: 0.6666667
     functionName: OnHiddenAnimation
-    data: DownHidden
-    objectReferenceParameter: {fileID: 11500000, guid: 9a6234f0c7defca428969f9f06b316ee, type: 3}
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 392eb7f8e8ead334f801208f255ec9cb, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

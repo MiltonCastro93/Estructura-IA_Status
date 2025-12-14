@@ -285,8 +285,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EsconditeFast
   RefPostHidden: {fileID: 1336749527}
   RefOutHidden: {fileID: 902377565}
-  TypeTriggerPrehidden: DownHidden
-  TypeTriggerOuthidden: OutDownHidden
   player: {fileID: 0}
   typeEscondite: 0
   REFLeftOuthidden: {fileID: 759150809}
@@ -2058,8 +2056,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OneHiddenOut
   RefPostHidden: {fileID: 859030300}
   RefOutHidden: {fileID: 56956378}
-  TypeTriggerPrehidden: MiddleHidden
-  TypeTriggerOuthidden: OutMiddleHidden
   player: {fileID: 0}
   typeEscondite: 1
 --- !u!65 &408582215
@@ -3930,8 +3926,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OneHiddenOut
   RefPostHidden: {fileID: 394105255}
   RefOutHidden: {fileID: 127421901}
-  TypeTriggerPrehidden: DownHidden
-  TypeTriggerOuthidden: OutDownHidden
   player: {fileID: 0}
   typeEscondite: 0
 --- !u!65 &949120723
@@ -9195,6 +9189,7 @@ MonoBehaviour:
   speedWalking: 5
   speedRunning: 10
   gravity: 1
+  typeHidden: -1
 --- !u!1 &1910548885
 GameObject:
   m_ObjectHideFlags: 0
