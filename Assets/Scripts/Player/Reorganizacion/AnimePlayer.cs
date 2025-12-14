@@ -6,7 +6,7 @@ using UnityEngine;
 public class AnimePlayer : PlayerWalking
 {
     protected Animator _anim;
-    [SerializeField] int typeHidden = 0; // Tipo de escondite (None = -1, Bajo = 0, Medio = 1, Alto = 2)
+    [SerializeField] int typeHidden = 0; // Tipo de escondite ( None = -1, Bajo = 0, Medio = 1, Alto = 2)
 
     protected override void Awake()
     {
@@ -72,7 +72,15 @@ public class AnimePlayer : PlayerWalking
         _anim.SetInteger("HiddenType", -1);
         GetCurrentMueble.Reverses();
 
-        transform.position = rayItem.ModoOutHidden(); //posicion de salida del escondite
+        if(GetSpecialHidden != null)
+        {
+            transform.position = GetSpecialHidden.CallOutHidden();
+        }
+        else
+        {
+            transform.position = rayItem.ModoOutHidden(); //posicion de salida del escondite
+        }
+
 
         _cc.enabled = true;
     }

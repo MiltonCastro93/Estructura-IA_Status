@@ -11,39 +11,51 @@ public class CastObjectRayItem : MonoBehaviour
     Vector3 outHidden = Vector3.zero; //Posicion para salir del escondite
 
     IAction accionMueble;
+    ISpecialHidden specialHidden;
 
     public bool RayFire() //Logica Aplicada, es true si ofrece un metodo para esconderse
     {
         RaycastHit hit;
-        
-        if (Physics.Raycast(transform.position, transform.forward, out hit, distanceFire))
+
+        if (!Physics.Raycast(transform.position, transform.forward, out hit, distanceFire)) return false;
+        Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
+
+        accionMueble = null; //para obtener las dos acciones necesarias para Open() y Close()
+        specialHidden = null;
+
+        IModeHidden hidden = null;
+
+        var components = hit.collider.GetComponents<MonoBehaviour>();
+        foreach(var c in components) 
         {
-            Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
-
-            IAction action = hit.collider.GetComponent<IAction>();
-
-            if (action != null)
+            if(c is IAction action)
             {
-
-                action.Ejecuted();
-
-                IModeHidden GetMueble = hit.collider.GetComponent<IModeHidden>();
-
-                if(GetMueble != null)
-                {
-                    accionMueble = action; //para obtener las dos acciones necesarias para Open() y Close()
-
-                    positionHidden = GetMueble.PosHidden(); //Paso el vector para esconderse
-                    rotationHidden = GetMueble.PosHiddenRotation(); //Paso el Quaternion
-                    outHidden = GetMueble.PosOutHidden(); //Punto de salida
-
-                    return true;
-                }
-
+                accionMueble = action;
             }
-
+            if(c is IModeHidden modeHidden)
+            {
+                hidden = modeHidden;
+            }
+            if(c is ISpecialHidden special)
+            {
+                specialHidden = special;
+            }
+        }
+        if(accionMueble == null)
+        {
+            return false;
         }
 
+        //Acción siempre existe
+        accionMueble.Ejecuted();
+        //Hidden es opcional
+        if(hidden != null)
+        {
+            positionHidden = hidden.PosHidden();//Paso el vector para esconderse
+            rotationHidden = hidden.PosHiddenRotation();//Paso el Quaternion
+            outHidden = hidden.PosOutHidden();//Punto de salida static
+            return true;
+        }
         return false;
     }
 
@@ -51,5 +63,6 @@ public class CastObjectRayItem : MonoBehaviour
     public Quaternion RotModeHidden() => rotationHidden;
     public Vector3 ModoOutHidden() => outHidden; //Salida
     public IAction AccionMueble() => accionMueble;
+    public ISpecialHidden SpecialHidden() => specialHidden;
 
 }

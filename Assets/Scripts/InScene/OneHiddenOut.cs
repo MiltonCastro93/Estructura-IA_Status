@@ -45,6 +45,6 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
     //Implementacion de IModeHidden
     public Vector3 PosHidden() => RefPostHidden.position; //Posicion pre establecida para esconderse
     public Quaternion PosHiddenRotation() => RefOutHidden.rotation; //Rotacion de personaje segun el mueble
-    public virtual Vector3 PosOutHidden() => RefOutHidden.position; //Posicion pre establecida para salir
+    public Vector3 PosOutHidden() => RefOutHidden.position; //Posicion pre establecida para salir
 
 }

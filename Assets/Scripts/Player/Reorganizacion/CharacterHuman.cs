@@ -21,8 +21,7 @@ public abstract class CharacterHuman : CharacterInput
     [SerializeField] protected RayHeightPlayer PiesAltura;
     [SerializeField] protected CastObjectRayItem rayItem;//Lee los objetos interactuables con clic
     protected IAction GetCurrentMueble; 
-
-    protected Vector3 OldPosition = Vector3.zero;
+    protected ISpecialHidden GetSpecialHidden;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Awake()
@@ -45,6 +44,7 @@ public abstract class CharacterHuman : CharacterInput
                 case MainState.Idle:
                     CurrentState = MainState.Crouch;
                     break;
+                case MainState.Running://efecto de inercia al agacharse corriendo?
                 case MainState.Walking:
                     CurrentState = MainState.CrouchWalking;
                     break;
@@ -67,13 +67,6 @@ public abstract class CharacterHuman : CharacterInput
         else
         {
             PiesAltura.EjecutaComprobacionAltura();
-        }
-
-
-        //Si estoy Corriendo se deslice
-        if (CurrentState == MainState.Running)
-        {
-            Debug.Log("Deslizando, termina en Crouch");
         }
 
     }
@@ -120,7 +113,6 @@ public abstract class CharacterHuman : CharacterInput
             case MainState.CrouchTilt:
                 CurrentState = MainState.Crouch;
                 break;
-
 
         }
 
@@ -221,6 +213,7 @@ public abstract class CharacterHuman : CharacterInput
             if (rayItem.RayFire())
             {
                 GetCurrentMueble = rayItem.AccionMueble(); //Obtengo la interfaz del mueble, asi puedo abrir y cerrar
+                GetSpecialHidden = rayItem.SpecialHidden(); //Obtengo la interfaz del mueble especial, asi puedo establecer el punto de salida
             }
 
         }

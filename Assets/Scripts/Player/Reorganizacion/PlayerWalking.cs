@@ -27,7 +27,7 @@ public class PlayerWalking : CharacterHuman
         base.Update();
         CheckStatus();
 
-        speed = IsRunning ? speedRunning : speedWalking;
+        speed = !IsCrouch && IsRunning ? speedRunning : speedWalking;
 
         if (CurrentState == MainState.Action)
         {
@@ -88,6 +88,12 @@ public class PlayerWalking : CharacterHuman
                     {
                         IsCrouch = false;
                         transform.localScale = Vector3.one;//reestablesco la scale del GO player. posiblemente lo saque
+
+                        if (GetSpecialHidden != null)
+                        {
+                            GetSpecialHidden.RotOutHidden(-look);//Es para el mueble especial, segun la direccion saldra para ese sentido
+                        }
+
                         goto case MainState.Tilt;
                     }
 

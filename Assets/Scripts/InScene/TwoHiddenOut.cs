@@ -17,18 +17,6 @@ public class TwoHiddenOut : OneHiddenOut, ISpecialHidden
         baseRotation = RefPostHidden.localRotation;
     }
 
-    public override Vector3 PosOutHidden()
-    {
-        if(currentValue > 0f)
-        {
-            Debug.Log("Izquierda");
-            return REFLeftOuthidden.position;
-        }
-        Debug.Log("Derecha");
-        return RefOutHidden.position;
-    }
-
-
     //otra interface, para que me permita rotar la camara mientras estoy escondido en un angulo maximo
     public void RotOutHidden(Vector2 valueX)//> sera llamado desde el player
     {
@@ -48,5 +36,14 @@ public class TwoHiddenOut : OneHiddenOut, ISpecialHidden
         RefPostHidden.localRotation = baseRotation;
     }
 
-
+    public Vector3 CallOutHidden()
+    {
+        if (currentValue > 0f)
+        {
+            Debug.Log("Izquierda");
+            return REFLeftOuthidden.position;
+        }
+        Debug.Log("Derecha");
+        return RefOutHidden.position;
+    }
 }
