@@ -27,7 +27,7 @@ public class PlayerWalking : CharacterHuman
         base.Update();
         CheckStatus();
 
-        speed = !IsCrouch && IsRunning ? speedRunning : speedWalking;
+        speed = (!IsCrouch && IsRunning) ? speedRunning : speedWalking;
 
         if (CurrentState == MainState.Action)
         {
@@ -77,7 +77,7 @@ public class PlayerWalking : CharacterHuman
         return camForward * dir.z + camRight * dir.x;
     }
 
-    private void CheckStatus()
+    private void CheckStatus() //Controla la camara segun el estado del personaje
     {
         Vector2 look = inputs.Player.Look.ReadValue<Vector2>();
         switch (CurrentState)

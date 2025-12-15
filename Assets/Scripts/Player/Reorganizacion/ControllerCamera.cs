@@ -13,7 +13,6 @@ public class ControllerCamera : MonoBehaviour
         CamCenter = transform.localPosition;
     }
 
-
     public void NonTilt(Vector2 Action, Transform Person) //Rotacion del personaje y la camara
     {
         // Rotacion Horizontal del Character

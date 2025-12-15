@@ -16,12 +16,14 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
         {
             if (!playerIN)
             {
-                player.GetComponent<AnimePlayer>().PreAccion(typeEscondite);
+                player.PreAccion(typeEscondite);
+                //player.GetComponent<AnimePlayer>().PreAccion(typeEscondite);
                 playerIN = true;
             }
             else
             {
-                player.GetComponent<AnimePlayer>().PreAccion(typeEscondite);
+                player.PreAccion(typeEscondite);
+                //player.GetComponent<AnimePlayer>().PreAccion(typeEscondite);
                 playerIN = false;
             }
 

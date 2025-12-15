@@ -70,6 +70,7 @@ public class AnimePlayer : PlayerWalking
 
         _anim.ResetTrigger("FinishHidden");
         _anim.SetInteger("HiddenType", -1);
+
         GetCurrentMueble.Reverses();
 
         if(GetSpecialHidden != null)

@@ -9,7 +9,7 @@ public abstract class BaseEscondite : MonoBehaviour
 
 
     //Aplicar logica de animacion
-    [SerializeField] protected PlayerWalking player;
+    [SerializeField] protected AnimePlayer player;
     protected bool playerIN = false;
 
     //Tipo de Escondite
@@ -25,7 +25,7 @@ public abstract class BaseEscondite : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            player = other.GetComponent<PlayerWalking>();
+            player = other.GetComponent<AnimePlayer>();
         }
     }
 

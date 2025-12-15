@@ -25,8 +25,8 @@ public class CastObjectRayItem : MonoBehaviour
 
         IModeHidden hidden = null;
 
-        var components = hit.collider.GetComponents<MonoBehaviour>();
-        foreach(var c in components) 
+        var components = hit.collider.GetComponents<MonoBehaviour>();//Obtengo todos los componentes del objeto impactado
+        foreach (var c in components) //Hago un Cast del componente a las interfaces que me interesan
         {
             if(c is IAction action)
             {
@@ -48,12 +48,13 @@ public class CastObjectRayItem : MonoBehaviour
 
         //Acción siempre existe
         accionMueble.Ejecuted();
+
         //Hidden es opcional
         if(hidden != null)
         {
             positionHidden = hidden.PosHidden();//Paso el vector para esconderse
             rotationHidden = hidden.PosHiddenRotation();//Paso el Quaternion
-            outHidden = hidden.PosOutHidden();//Punto de salida static
+            outHidden = hidden.PosOutHidden();//Punto de salida original
             return true;
         }
         return false;
@@ -62,6 +63,8 @@ public class CastObjectRayItem : MonoBehaviour
     public Vector3 ModeHiddent() => positionHidden;
     public Quaternion RotModeHidden() => rotationHidden;
     public Vector3 ModoOutHidden() => outHidden; //Salida
+
+    //El CharacterHuman pide REFs para obtener las acciones
     public IAction AccionMueble() => accionMueble;
     public ISpecialHidden SpecialHidden() => specialHidden;
 

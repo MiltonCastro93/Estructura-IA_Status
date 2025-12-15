@@ -32,8 +32,8 @@ public class TwoHiddenOut : OneHiddenOut, ISpecialHidden
 
     public void ResetRotation()
     {
-        currentValue = 0;
-        RefPostHidden.localRotation = baseRotation;
+        //currentValue = 0;
+        //RefPostHidden.localRotation = baseRotation;
     }
 
     public Vector3 CallOutHidden()
