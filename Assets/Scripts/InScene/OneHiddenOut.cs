@@ -10,20 +10,18 @@ public class OneHiddenOut : BaseEscondite, IAction, IModeHidden
         anim = GetComponent<Animator>();
     }
 
-    public void InAccion() //Animacion Mueble -> Animacion Player
-    {
+    public void InAccion()//Metodo llamado por la animacion del mismo mueble
+    {//Animacion del Mueble verifica y avisa Player que animacion debe reproducir segun su estado y tipo de escondite
         if (player)
         {
             if (!playerIN)
             {
                 player.PreAccion(typeEscondite);
-                //player.GetComponent<AnimePlayer>().PreAccion(typeEscondite);
                 playerIN = true;
             }
             else
             {
                 player.PreAccion(typeEscondite);
-                //player.GetComponent<AnimePlayer>().PreAccion(typeEscondite);
                 playerIN = false;
             }
 

@@ -210,7 +210,7 @@ public abstract class CharacterHuman : CharacterInput
         base.OnFire(ctx);
         if (rayItem != null)
         {
-            if (rayItem.RayFire())
+            if (rayItem.RayFire())//Si tengo exito, quiero decir que tengo un mueble delante
             {
                 GetCurrentMueble = rayItem.AccionMueble(); //Obtengo la interfaz del mueble, asi puedo abrir y cerrar
                 GetSpecialHidden = rayItem.SpecialHidden(); //Obtengo la interfaz del mueble especial, asi puedo establecer el punto de salida

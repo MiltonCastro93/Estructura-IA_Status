@@ -76,6 +76,7 @@ public class AnimePlayer : PlayerWalking
         if(GetSpecialHidden != null)
         {
             transform.position = GetSpecialHidden.CallOutHidden();
+            GetSpecialHidden.ResetRotation();
         }
         else
         {
